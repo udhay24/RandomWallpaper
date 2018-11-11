@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 public class ImageAdapter extends BaseAdapter {
@@ -42,7 +44,7 @@ public class ImageAdapter extends BaseAdapter {
         }
 
 
-        Picasso.get().load("https://picsum.photos/200/300/?random").purgeable().into((ImageView)convertView);
+        Picasso.get().load("https://source.unsplash.com/random").memoryPolicy(MemoryPolicy.NO_CACHE).into((ImageView)convertView);
 
         return convertView;
     }
