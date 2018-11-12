@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.udhay.randomwallpaper.Adapters.ImageAdapter;
 import com.example.udhay.randomwallpaper.Util.BasicAuthInterceptor;
@@ -19,6 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -33,26 +36,43 @@ ImageView imageView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        PhotoApi photoApi = getClient().create(PhotoApi.class);
+
+        Call<Photo> photoCall = photoApi.getRandomPhoto();
+
+        Log.v("Call photo" , photoCall.toString());
+
+        photoCall.enqueue(new Callback<Photo>() {
+            @Override
+            public void onResponse(Call<Photo> call, Response<Photo> response) {
+
+                Log.v("Call method" , call.toString());
+                if(response.body() == null){
+                    Log.v("Header" , response.headers().toString());
+                    Toast.makeText(MainActivity.this, "it is null", Toast.LENGTH_SHORT).show();
+                }else {
+                    String url = response.body().toString();
+
+                    Log.v("URL", url);
+                    Picasso.get().load(Uri.parse(url)).into(imageView);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Photo> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        PhotoApi photoApi = getClient().create(PhotoApi.class);
 
-        Call<Photo> photoCall = photoApi.getRandomPhoto();
 
-        String url = null;
-        try {
-            url = photoCall.execute().body().toString();
-            Log.v("url" , url);
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-        Picasso.get().load(Uri.parse(url)).into(imageView);
     }
 
     static Retrofit getClient() {
