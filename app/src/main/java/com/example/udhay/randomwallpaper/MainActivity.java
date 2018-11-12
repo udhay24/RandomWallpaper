@@ -50,9 +50,12 @@ ImageView imageView;
                 Log.v("Call method" , call.toString());
                 if(response.body() == null){
                     Log.v("Header" , response.headers().toString());
+                    Log.v("Error Body" , response.errorBody().toString());
+                    Log.v("Message", response.message());
+                    Log.v("response" , response.toString());
                     Toast.makeText(MainActivity.this, "it is null", Toast.LENGTH_SHORT).show();
                 }else {
-                    String url = response.body().toString();
+                    String url = response.body().getUrls().getRaw();
 
                     Log.v("URL", url);
                     Picasso.get().load(Uri.parse(url)).into(imageView);
