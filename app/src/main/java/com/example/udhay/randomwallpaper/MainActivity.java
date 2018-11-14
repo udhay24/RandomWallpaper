@@ -15,6 +15,7 @@ import com.example.udhay.randomwallpaper.model.Photo;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,31 +40,18 @@ ImageView imageView;
 
         PhotoApi photoApi = getClient().create(PhotoApi.class);
 
-        Call<Photo> photoCall = photoApi.getRandomPhoto();
+        Call<List<Photo>> photoCall = photoApi.getPhotos(1,20);
 
-        Log.v("Call photo" , photoCall.toString());
 
-        photoCall.enqueue(new Callback<Photo>() {
+        photoCall.enqueue(new Callback<List<Photo>>() {
+
             @Override
-            public void onResponse(Call<Photo> call, Response<Photo> response) {
-
-                Log.v("Call method" , call.toString());
-                if(response.body() == null){
-                    Log.v("Header" , response.headers().toString());
-                    Log.v("Error Body" , response.errorBody().toString());
-                    Log.v("Message", response.message());
-                    Log.v("response" , response.toString());
-                    Toast.makeText(MainActivity.this, "it is null", Toast.LENGTH_SHORT).show();
-                }else {
-                    String url = response.body().getUrls().getRaw();
-
-                    Log.v("URL", url);
-                    Picasso.get().load(Uri.parse(url)).into(imageView);
-                }
+            public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+                Toast.makeText(MainActivity.this, ""+response.body().size(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<Photo> call, Throwable t) {
+            public void onFailure(Call<List<Photo>> call, Throwable t) {
 
             }
         });
