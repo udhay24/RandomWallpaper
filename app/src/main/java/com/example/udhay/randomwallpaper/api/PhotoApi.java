@@ -14,6 +14,6 @@ public interface PhotoApi {
     Call<Photo> getRandomPhoto();
 
     @GET("photos")
-    Call<List<Photo>> getPhotos(@Query("page") int pae , @Query("per_page") int perPage);
+    Call<List<Photo>> getPhotos(@Query("page") int page, @Query("per_page") int perPage);
 
 }

@@ -1,51 +1,70 @@
 package com.example.udhay.randomwallpaper.Adapters;
 
 import android.content.Context;
-import android.media.Image;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
+import com.example.udhay.randomwallpaper.model.Photo;
 import com.squareup.picasso.Picasso;
 
-public class ImageAdapter extends BaseAdapter {
+import java.util.List;
+
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.PhotoViewHolder> {
 
     private Context context;
 
-    public ImageAdapter(Context context){
+    private List<Photo> photoList;
+
+    public ImageAdapter(Context context, List<Photo> list) {
+
         this.context = context;
+        this.photoList = list;
+    }
+
+    @NonNull
+    @Override
+    public PhotoViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = new ImageView(context);
+
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        return new PhotoViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return 10;
+    public void onBindViewHolder(@NonNull PhotoViewHolder photoViewHolder, int i) {
+
+        Photo photo = photoList.get(i);
+
+        Picasso.get().load(photo.getUrls().getRegular()).into(photoViewHolder.getView());
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public int getItemCount() {
+        return photoList.size();
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public class PhotoViewHolder extends RecyclerView.ViewHolder {
 
-        if(convertView == null){
-            ImageView imageView = new ImageView(parent.getContext());
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT , ViewGroup.LayoutParams.WRAP_CONTENT));
-            convertView = imageView;
+        private View view;
+
+        public PhotoViewHolder(View view) {
+            super(view);
+            this.view = view;
         }
 
 
-        Picasso.get().load("https://source.unsplash.com/random").memoryPolicy(MemoryPolicy.NO_CACHE).into((ImageView)convertView);
+        public ImageView getView() {
 
-        return convertView;
+
+            return (ImageView) view;
+        }
+
     }
+
+
 }

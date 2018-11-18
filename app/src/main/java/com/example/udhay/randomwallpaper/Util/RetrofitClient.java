@@ -11,7 +11,7 @@ public class RetrofitClient {
 
     private RetrofitClient(){}
 
-    static Retrofit getClient() {
+    public static Retrofit getClient() {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new AuthInterceptor(CLIENT_ID))
