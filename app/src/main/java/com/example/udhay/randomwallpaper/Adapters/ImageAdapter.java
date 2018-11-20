@@ -3,10 +3,12 @@ package com.example.udhay.randomwallpaper.Adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.model.Photo;
 import com.squareup.picasso.Picasso;
 
@@ -27,9 +29,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.PhotoViewHol
     @NonNull
     @Override
     public PhotoViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = new ImageView(context);
-
-        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_adapter_view_holder , viewGroup , false);
 
         return new PhotoViewHolder(view);
     }
@@ -52,16 +52,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.PhotoViewHol
 
         private View view;
 
+        private ImageView imageView;
+
         public PhotoViewHolder(View view) {
             super(view);
             this.view = view;
+            imageView = view.findViewById(R.id.imageView);
         }
 
 
         public ImageView getView() {
-
-
-            return (ImageView) view;
+            return imageView;
         }
 
     }

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setIndeterminate(true);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
 
 
         gridLayoutManager.setSmoothScrollbarEnabled(true);
