@@ -7,6 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     static Retrofit retrofit = null;
+
     private static final String CLIENT_ID = "374a680ea9dfd39c388e1411ba9229adfea3b257026d7b44bc7d053ca6729bb9";
 
     private RetrofitClient(){}

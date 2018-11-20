@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.udhay.randomwallpaper.Adapters.ImageAdapter;
+import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.Util.RetrofitClient;
 import com.example.udhay.randomwallpaper.api.PhotoApi;
 import com.example.udhay.randomwallpaper.model.Photo;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     List<Photo> photoList;
 
+    ImageAdapter imageAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,33 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(gridLayoutManager);
 
+        recyclerView.addOnScrollListener(new EndlessScrollListener(gridLayoutManager){
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+
+                final boolean loading;
+
+                PhotoApi photoApi = com.example.udhay.randomwallpaper.Util.RetrofitClient.getClient().create(PhotoApi.class);
+                photoApi.getPhotos(page , 10).enqueue(new Callback<List<Photo>>() {
+                    @Override
+                    public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+                        if(response.body() != null){
+                            List<Photo> photos = response.body();
+                            if(imageAdapter != null){
+                                imageAdapter.addPhotoList(photos);
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Photo>> call, Throwable t) {
+
+                    }
+                });
+                return true;
+            }
+        });
         getData();
     }
 
@@ -67,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
 
-                ImageAdapter imageAdapter = new ImageAdapter(MainActivity.this, response.body());
+                imageAdapter = new ImageAdapter(response.body());
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setAdapter(imageAdapter);
             }

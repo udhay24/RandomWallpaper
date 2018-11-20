@@ -20,15 +20,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.PhotoViewHol
 
     private List<Photo> photoList;
 
-    public ImageAdapter(Context context, List<Photo> list) {
+    public ImageAdapter( List<Photo> list) {
 
-        this.context = context;
         this.photoList = list;
     }
 
     @NonNull
     @Override
     public PhotoViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
+        this.context = viewGroup.getContext();
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_adapter_view_holder , viewGroup , false);
 
         return new PhotoViewHolder(view);
@@ -67,5 +68,17 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.PhotoViewHol
 
     }
 
+    public void addPhotoList(List<Photo> photos){
+
+        int previousCount = this.getItemCount();
+        photoList.addAll(photos);
+        this.notifyItemRangeInserted(previousCount , photos.size());
+
+    }
+
+    public void swapData(List<Photo> photos){
+        photoList = photos;
+        this.notifyDataSetChanged();
+    }
 
 }
