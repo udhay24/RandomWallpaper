@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+
 public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdapter.PhotoViewHolder> {
 
     private Context context;
@@ -40,7 +41,12 @@ public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdap
 
         Photo photo = photoList.get(i);
 
-        Picasso.get().load(photo.getUrls().getRegular()).placeholder(R.mipmap.loading_round).into(photoViewHolder.getView());
+        Picasso.get()
+                .load(photo.getUrls().getRegular())
+                .placeholder(R.drawable.loading_place_holder)
+                .fit()
+                .centerCrop()
+                .into(photoViewHolder.getView());
     }
 
     @Override

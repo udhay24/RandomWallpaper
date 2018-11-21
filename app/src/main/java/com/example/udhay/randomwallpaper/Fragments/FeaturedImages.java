@@ -20,6 +20,7 @@ import com.example.udhay.randomwallpaper.model.Photo;
 
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.ScaleInTopAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,6 +71,7 @@ public class FeaturedImages extends Fragment {
 
         loadImages();
         recyclerView.addOnScrollListener(getScrollListener());
+        recyclerView.setItemAnimator(new ScaleInTopAnimator());
 
     }
 

@@ -8,20 +8,16 @@
     android:elevation="8dp"
     app:cardCornerRadius="4dp">
 
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="100dp">
 
         <ImageView
             android:id="@+id/collection_image"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@+id/collection_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:alpha="0.6"
             tools:srcCompat="@tools:sample/backgrounds/scenic[19]" />
 
         <TextView
@@ -29,11 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Collection name"
+            android:layout_gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             tools:text="Collection Name" />
-    </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
 </android.support.v7.widget.CardView>
