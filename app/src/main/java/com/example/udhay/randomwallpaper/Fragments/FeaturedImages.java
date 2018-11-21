@@ -2,6 +2,7 @@ package com.example.udhay.randomwallpaper.Fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,18 +19,16 @@ import com.example.udhay.randomwallpaper.model.Photo;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FeaturedImages extends Fragment {
 
-    @BindView(R.id.progress_bar)
+    public static final String FRAGMENT_TITLE = "Featured";
+
     ProgressBar progressBar;
 
-    @BindView(R.id.featured_images_recycler_view)
     RecyclerView recyclerView;
 
     private ImageAdapter imageAdapter;
@@ -49,7 +48,9 @@ public class FeaturedImages extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View layoutView = inflater.inflate(R.layout.fragment_featured_images, container, false);
-        ButterKnife.bind(layoutView);
+
+        progressBar = layoutView.findViewById(R.id.progress_bar);
+        recyclerView = layoutView.findViewById(R.id.featured_images_recycler_view);
 
         return layoutView;
     }
@@ -57,6 +58,14 @@ public class FeaturedImages extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
 
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.VISIBLE);
