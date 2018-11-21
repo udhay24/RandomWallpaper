@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.udhay.randomwallpaper.Adapters.CollectionsAdapter;
+import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.Util.RetrofitClient;
 import com.example.udhay.randomwallpaper.api.PhotoApi;
@@ -65,5 +66,31 @@ public class CollectionsFragment extends Fragment {
                 Toast.makeText(CollectionsFragment.this.getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
+
+        recyclerView.addOnScrollListener(getScrollListener());
+
+    }
+
+    private EndlessScrollListener getScrollListener() {
+
+        EndlessScrollListener endlessScrollListener = new EndlessScrollListener(gridLayoutManager) {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                PhotoApi photoApi = RetrofitClient.getClient().create(PhotoApi.class);
+                photoApi.getCollections(page, 10).enqueue(new Callback<List<Collection>>() {
+                    @Override
+                    public void onResponse(Call<List<Collection>> call, Response<List<Collection>> response) {
+                        collectionsAdapter.addCollection(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Collection>> call, Throwable t) {
+
+                    }
+                });
+                return true;
+            }
+        };
+        return endlessScrollListener;
     }
 }
