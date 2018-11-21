@@ -9,7 +9,7 @@ import okhttp3.Response;
 
 public class AuthInterceptor implements Interceptor {
 
-    String clientId;
+    private String clientId;
 
     public AuthInterceptor(String authId){
         clientId = authId;
