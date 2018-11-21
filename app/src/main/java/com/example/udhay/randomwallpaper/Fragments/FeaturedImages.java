@@ -2,7 +2,6 @@ package com.example.udhay.randomwallpaper.Fragments;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.udhay.randomwallpaper.Adapters.ImageAdapter;
+import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.R;
+import com.example.udhay.randomwallpaper.Util.RetrofitClient;
 import com.example.udhay.randomwallpaper.api.PhotoApi;
 import com.example.udhay.randomwallpaper.model.Photo;
 
@@ -32,6 +33,7 @@ public class FeaturedImages extends Fragment {
     RecyclerView recyclerView;
 
     private ImageAdapter imageAdapter;
+    private GridLayoutManager gridLayoutManager;
 
     public FeaturedImages() {
         // Required empty public constructor
@@ -59,27 +61,22 @@ public class FeaturedImages extends Fragment {
     public void onStart() {
         super.onStart();
 
-
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.VISIBLE);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
+        gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
 
         recyclerView.setLayoutManager(gridLayoutManager);
 
         loadImages();
+        recyclerView.addOnScrollListener(getScrollListener());
+
     }
+
 
     private void loadImages() {
 
-        PhotoApi photoApi = com.example.udhay.randomwallpaper.Util.RetrofitClient.getClient().create(PhotoApi.class);
+        PhotoApi photoApi = RetrofitClient.getClient().create(PhotoApi.class);
 
         photoApi.getPhotos(1, 10).enqueue(new Callback<List<Photo>>() {
             @Override
@@ -94,5 +91,28 @@ public class FeaturedImages extends Fragment {
                 Toast.makeText(FeaturedImages.this.getContext(), "Not Able to load Images", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private EndlessScrollListener getScrollListener() {
+
+        EndlessScrollListener endlessScrollListener = new EndlessScrollListener(gridLayoutManager) {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                PhotoApi photoApi = RetrofitClient.getClient().create(PhotoApi.class);
+                photoApi.getPhotos(page, 20).enqueue(new Callback<List<Photo>>() {
+                    @Override
+                    public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+                        List<Photo> photos = response.body();
+                        imageAdapter.addPhotoList(photos);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Photo>> call, Throwable t) {
+                    }
+                });
+                return true;
+            }
+        };
+        return endlessScrollListener;
     }
 }

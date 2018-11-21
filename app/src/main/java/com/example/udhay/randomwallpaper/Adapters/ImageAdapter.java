@@ -40,7 +40,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.PhotoViewHol
 
         Photo photo = photoList.get(i);
 
-        Picasso.get().load(photo.getUrls().getRegular()).into(photoViewHolder.getView());
+        Picasso.get().load(photo.getUrls().getRegular()).placeholder(R.mipmap.loading_round).into(photoViewHolder.getView());
     }
 
     @Override
