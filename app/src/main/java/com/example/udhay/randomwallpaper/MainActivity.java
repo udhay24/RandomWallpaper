@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.udhay.randomwallpaper.Adapters.ImageAdapter;
 import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
@@ -20,6 +22,7 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,30 +43,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        Timber.plant(new Timber.DebugTree());
 
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setIndeterminate(true);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
 
-
         gridLayoutManager.setSmoothScrollbarEnabled(true);
 
         recyclerView.setLayoutManager(gridLayoutManager);
 
         recyclerView.addOnScrollListener(new EndlessScrollListener(gridLayoutManager){
+
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
 
-                final boolean loading;
-
                 PhotoApi photoApi = com.example.udhay.randomwallpaper.Util.RetrofitClient.getClient().create(PhotoApi.class);
+
                 photoApi.getPhotos(page , 10).enqueue(new Callback<List<Photo>>() {
+
                     @Override
                     public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+
                         if(response.body() != null){
+
                             List<Photo> photos = response.body();
+
                             if(imageAdapter != null){
+
                                 imageAdapter.addPhotoList(photos);
 
                             }
@@ -75,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-                return true;
+                return false;
             }
         });
         getData();

@@ -3,8 +3,11 @@ package com.example.udhay.randomwallpaper.Listeners;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.widget.AbsListView;
 import android.widget.GridLayout;
+
+import timber.log.Timber;
 
 public abstract class EndlessScrollListener extends RecyclerView.OnScrollListener {
 
@@ -69,6 +72,15 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
         if (!loading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
             loading = onLoadMore(currentPage + 1, totalItemCount);
         }
+
+//        Timber.v("total item count" + totalItemCount);
+//        Timber.v("first visible item" + firstVisibleItem);
+//        Timber.v("visible item count" + visibleItemCount);
+//        Timber.v("previous item count" + previousTotalItemCount);
+//        Timber.v("current page" + currentPage);
+        Timber.v("loading" + loading);
+
+
     }
 
     // Defines the process for actually loading more data based on page

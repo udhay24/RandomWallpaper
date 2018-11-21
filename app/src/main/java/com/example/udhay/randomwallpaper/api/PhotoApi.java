@@ -16,4 +16,6 @@ public interface PhotoApi {
     @GET("photos")
     Call<List<Photo>> getPhotos(@Query("page") int page, @Query("per_page") int perPage);
 
+
+
 }
