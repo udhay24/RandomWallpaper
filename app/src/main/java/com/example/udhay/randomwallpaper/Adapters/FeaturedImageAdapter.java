@@ -14,13 +14,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.PhotoViewHolder> {
+public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdapter.PhotoViewHolder> {
 
     private Context context;
 
     private List<Photo> photoList;
 
-    public ImageAdapter( List<Photo> list) {
+    public FeaturedImageAdapter(List<Photo> list) {
 
         this.photoList = list;
     }
@@ -30,7 +30,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.PhotoViewHol
     public PhotoViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         this.context = viewGroup.getContext();
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.image_adapter_view_holder , viewGroup , false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.featured_image_view_holder, viewGroup, false);
 
         return new PhotoViewHolder(view);
     }

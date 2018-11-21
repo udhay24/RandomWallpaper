@@ -1,5 +1,6 @@
 package com.example.udhay.randomwallpaper.api;
 
+import com.example.udhay.randomwallpaper.model.Collection;
 import com.example.udhay.randomwallpaper.model.Photo;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public interface PhotoApi {
     @GET("photos")
     Call<List<Photo>> getPhotos(@Query("page") int page, @Query("per_page") int perPage);
 
-
+    @GET("collections")
+    Call<List<Collection>> getCollections(@Query("page") int page, @Query("per_page") int perPage);
 
 }

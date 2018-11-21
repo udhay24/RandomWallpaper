@@ -174,7 +174,7 @@ public class Collection {
     }
 
 
-    class CoverPhoto {
+    public static class CoverPhoto {
 
         @SerializedName("id")
         @Expose
@@ -378,7 +378,7 @@ public class Collection {
 
     }
 
-    class CoverPhotoLinks {
+    public static class CoverPhotoLinks {
 
         @SerializedName("self")
         @Expose
@@ -428,7 +428,7 @@ public class Collection {
 
     }
 
-    class Links {
+    public static class Links {
 
         @SerializedName("self")
         @Expose
@@ -511,7 +511,7 @@ public class Collection {
     }
 
 
-    class CollectionLink {
+    public static class CollectionLink {
 
         @SerializedName("self")
         @Expose
@@ -561,7 +561,7 @@ public class Collection {
 
     }
 
-    class PreviewPhoto {
+    public static class PreviewPhoto {
 
         @SerializedName("id")
         @Expose
@@ -588,7 +588,7 @@ public class Collection {
 
     }
 
-    class ProfileImage {
+    public static class ProfileImage {
 
         @SerializedName("small")
         @Expose
@@ -627,7 +627,7 @@ public class Collection {
 
     }
 
-    class Tag {
+    public static class Tag {
 
         @SerializedName("title")
         @Expose
@@ -643,7 +643,7 @@ public class Collection {
 
     }
 
-    class Urls {
+    public static class Urls {
 
         @SerializedName("raw")
         @Expose
@@ -703,7 +703,7 @@ public class Collection {
 
     }
 
-    class PreviewPhotoUrls {
+    public static class PreviewPhotoUrls {
 
         @SerializedName("raw")
         @Expose
@@ -764,8 +764,7 @@ public class Collection {
 
     }
 
-
-    class User {
+    public static class User {
 
         @SerializedName("id")
         @Expose
@@ -958,8 +957,7 @@ public class Collection {
 
     }
 
-
-    class CoverPhotoUser {
+    public static class CoverPhotoUser {
 
         @SerializedName("id")
         @Expose

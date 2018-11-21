@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.udhay.randomwallpaper.Adapters.ImageAdapter;
+import com.example.udhay.randomwallpaper.Adapters.FeaturedImageAdapter;
 import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.Util.RetrofitClient;
@@ -32,7 +32,7 @@ public class FeaturedImages extends Fragment {
 
     RecyclerView recyclerView;
 
-    private ImageAdapter imageAdapter;
+    private FeaturedImageAdapter featuredImageAdapter;
     private GridLayoutManager gridLayoutManager;
 
     public FeaturedImages() {
@@ -82,8 +82,8 @@ public class FeaturedImages extends Fragment {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
                 progressBar.setVisibility(View.GONE);
-                imageAdapter = new ImageAdapter(response.body());
-                recyclerView.setAdapter(imageAdapter);
+                featuredImageAdapter = new FeaturedImageAdapter(response.body());
+                recyclerView.setAdapter(featuredImageAdapter);
             }
 
             @Override
@@ -103,7 +103,7 @@ public class FeaturedImages extends Fragment {
                     @Override
                     public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
                         List<Photo> photos = response.body();
-                        imageAdapter.addPhotoList(photos);
+                        featuredImageAdapter.addPhotoList(photos);
                     }
 
                     @Override
