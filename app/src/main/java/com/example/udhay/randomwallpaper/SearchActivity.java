@@ -7,8 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-
-import timber.log.Timber;
+import android.view.MenuItem;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -36,8 +35,6 @@ public class SearchActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
 
         message = intent.getStringExtra(SearchManager.QUERY);
-        Timber.v("message: :" + message);
-
     }
 
     @Override
@@ -46,8 +43,25 @@ public class SearchActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.search_activity_menu, menu);
 
         searchView = (SearchView) menu.findItem(R.id.search_menu_item).getActionView();
-        searchView.setIconifiedByDefault(false);
-        searchView.setIconified(false);
+        MenuItem menuItem = menu.findItem(R.id.search_menu_item);
+        menuItem.expandActionView();
+        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                finish();
+                return false;
+            }
+        });
+
+
+//        searchView.setIconifiedByDefault(false);
+//        searchView.setIconified(false);
         searchView.setQuery(message, false);
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
