@@ -36,7 +36,9 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
 
         collectionViewHolder.collectionTitle.setText(collections.get(i).getTitle());
 
-        Picasso.get().load(collections.get(i).getCoverPhoto().getUrls().getSmall()).into(collectionViewHolder.collectionImage);
+        Picasso.get()
+                .load(collections.get(i).getCoverPhoto().getUrls().getSmall())
+                .into(collectionViewHolder.collectionImage);
     }
 
     @Override

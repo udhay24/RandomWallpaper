@@ -44,8 +44,8 @@ public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdap
         Picasso.get()
                 .load(photo.getUrls().getRegular())
                 .placeholder(R.drawable.ic_sand_clock)
-                .noFade()
-                .fit().centerCrop()
+                .fit()
+                .centerCrop()
                 .into(photoViewHolder.getView());
     }
 
