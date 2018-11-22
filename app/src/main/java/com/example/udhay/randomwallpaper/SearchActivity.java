@@ -42,30 +42,26 @@ public class SearchActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.search_activity_menu, menu);
 
-        searchView = (SearchView) menu.findItem(R.id.search_menu_item).getActionView();
         MenuItem menuItem = menu.findItem(R.id.search_menu_item);
+        searchView = (SearchView) menuItem.getActionView();
         menuItem.expandActionView();
+
         menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-
-                return true;
+                return true;//to keep the action view open
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 finish();
-                return false;
+                return false; // To prevent the action view from closing
             }
         });
 
-
-//        searchView.setIconifiedByDefault(false);
-//        searchView.setIconified(false);
-        searchView.setQuery(message, false);
+        searchView.setQuery(message, true);
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
-
         return true;
     }
 }
