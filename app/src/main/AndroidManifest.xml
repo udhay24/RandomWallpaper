@@ -32,14 +32,13 @@
 
         <activity
             android:name=".SearchActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
 
             <!-- This intent-filter identifies this activity as "searchable" -->
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
-
-                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <!-- This metadata entry provides further configuration details for searches -->
