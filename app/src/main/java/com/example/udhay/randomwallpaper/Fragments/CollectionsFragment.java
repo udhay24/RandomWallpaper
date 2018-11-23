@@ -9,11 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.udhay.randomwallpaper.Adapters.CollectionsAdapter;
 import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.R;
+import com.example.udhay.randomwallpaper.Util.GifImageView;
 import com.example.udhay.randomwallpaper.Util.RetrofitClient;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.Collection;
@@ -36,6 +38,9 @@ public class CollectionsFragment extends Fragment {
 
     UnSplashApi unSplashApi;
 
+    GifImageView progressGifView;
+    ImageView errorImage;
+
     public CollectionsFragment() {
         // Required empty public constructor
     }
@@ -43,8 +48,6 @@ public class CollectionsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        loadInitialCollections();
 
     }
 
@@ -56,12 +59,19 @@ public class CollectionsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.collections_recycler_view);
         gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
+
+        progressGifView = view.findViewById(R.id.preloader_1_GifView);
+        errorImage = view.findViewById(R.id.error_image);
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        displayLoading();
+
+        loadInitialCollections();
 
         recyclerView.addOnScrollListener(getScrollListener());
 
@@ -89,6 +99,7 @@ public class CollectionsFragment extends Fragment {
                             load = true;
                         } else {
 
+                            displayError();
                             Toast.makeText(CollectionsFragment.this.getContext(), "Error loading collections", Toast.LENGTH_SHORT).show();
                             load = false;
                         }
@@ -97,6 +108,7 @@ public class CollectionsFragment extends Fragment {
                     @Override
                     public void onFailure(Call<List<Collection>> call, Throwable t) {
 
+                        displayError();
                         Toast.makeText(CollectionsFragment.this.getContext(), "Unable to load collections", Toast.LENGTH_SHORT).show();
                         load = false;
                     }
@@ -122,8 +134,36 @@ public class CollectionsFragment extends Fragment {
             @Override
             public void onFailure(Call<List<Collection>> call, Throwable t) {
 
+                displayError();
                 Toast.makeText(CollectionsFragment.this.getContext(), "Unable to load collections", Toast.LENGTH_SHORT).show();
             }
         });
+
+        displayCollections();
     }
+
+    private void displayError() {
+
+        recyclerView.setVisibility(View.GONE);
+        progressGifView.setVisibility(View.GONE);
+        errorImage.setVisibility(View.VISIBLE);
+    }
+
+    private void displayCollections() {
+
+        recyclerView.setVisibility(View.VISIBLE);
+        progressGifView.setVisibility(View.GONE);
+        errorImage.setVisibility(View.GONE);
+    }
+
+    private void displayLoading() {
+
+        progressGifView.setGifImageResource(R.drawable.preloader_1);
+
+        recyclerView.setVisibility(View.GONE);
+        progressGifView.setVisibility(View.VISIBLE);
+        errorImage.setVisibility(View.GONE);
+    }
+
+
 }
