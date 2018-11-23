@@ -3,11 +3,6 @@ package com.example.udhay.randomwallpaper.Listeners;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.widget.AbsListView;
-import android.widget.GridLayout;
-
-import timber.log.Timber;
 
 public abstract class EndlessScrollListener extends RecyclerView.OnScrollListener {
 
@@ -45,13 +40,16 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
 
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+
         super.onScrolled(recyclerView, dx, dy);
 
         int totalItemCount = recyclerView.getAdapter().getItemCount();
         int firstVisibleItem = gridLayoutManager.findFirstVisibleItemPosition();
         int visibleItemCount = gridLayoutManager.findLastVisibleItemPosition() - firstVisibleItem;
+
         // If the total item count is zero and the previous isn't, assume the
         // list is invalidated and should be reset back to initial state
+
         if (totalItemCount < previousTotalItemCount) {
             this.currentPage = this.startingPageIndex;
             this.previousTotalItemCount = totalItemCount;
@@ -60,6 +58,7 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
         // If it's still loading, we check to see if the dataset count has
         // changed, if so we conclude it has finished loading and update the current page
         // number and total item count.
+
         if (loading && (totalItemCount > previousTotalItemCount)) {
             loading = false;
             previousTotalItemCount = totalItemCount;
@@ -69,17 +68,10 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
         // If it isn't currently loading, we check to see if we have breached
         // the visibleThreshold and need to reload more data.
         // If we do need to reload some more data, we execute onLoadMore to fetch the data.
+
         if (!loading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
             loading = onLoadMore(currentPage + 1, totalItemCount);
         }
-
-//        Timber.v("total item count" + totalItemCount);
-//        Timber.v("first visible item" + firstVisibleItem);
-//        Timber.v("visible item count" + visibleItemCount);
-//        Timber.v("previous item count" + previousTotalItemCount);
-//        Timber.v("current page" + currentPage);
-        Timber.v("loading" + loading);
-
 
     }
 

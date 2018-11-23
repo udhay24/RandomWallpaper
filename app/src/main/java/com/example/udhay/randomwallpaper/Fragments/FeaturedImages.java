@@ -98,21 +98,32 @@ public class FeaturedImages extends Fragment {
     private EndlessScrollListener getScrollListener() {
 
         EndlessScrollListener endlessScrollListener = new EndlessScrollListener(gridLayoutManager) {
+
+            boolean load = true;
+
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
                 UnSplashApi unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
+
                 unSplashApi.getPhotos(page, 20).enqueue(new Callback<List<Photo>>() {
                     @Override
                     public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
-                        List<Photo> photos = response.body();
-                        featuredImageAdapter.addPhotoList(photos);
+
+                        if (response.body() != null) {
+                            List<Photo> photos = response.body();
+                            featuredImageAdapter.addPhotoList(photos);
+                            load = true;
+                        } else {
+                            load = false;
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<List<Photo>> call, Throwable t) {
                     }
                 });
-                return true;
+
+                return load;
             }
         };
         return endlessScrollListener;
