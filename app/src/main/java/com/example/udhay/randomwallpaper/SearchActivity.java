@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.udhay.randomwallpaper.Adapters.SearchResultAdapter;
 import com.example.udhay.randomwallpaper.Util.RetrofitClient;
-import com.example.udhay.randomwallpaper.api.PhotoApi;
+import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 import com.example.udhay.randomwallpaper.model.UserSearchResult;
@@ -26,7 +26,6 @@ import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -51,14 +50,14 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView wallpaperRecyclerView;
 
 
-    PhotoApi photoApi;
+    UnSplashApi unSplashApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
-        photoApi = RetrofitClient.getClient().create(PhotoApi.class);
+        unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
 
         setSupportActionBar(toolbar);
 
@@ -124,11 +123,9 @@ public class SearchActivity extends AppCompatActivity {
     private void loadWallpaper() {
 
 
-        photoApi.searchPhotos(query, 1, 30, null, null).enqueue(new Callback<PhotoSearchResult>() {
+        unSplashApi.searchPhotos(query, 1, 30, null, null).enqueue(new Callback<PhotoSearchResult>() {
             @Override
             public void onResponse(Call<PhotoSearchResult> call, Response<PhotoSearchResult> response) {
-
-                Timber.v("response " + response.body().getSearchPhotos().get(0).getUrls().getFull());
 
                 wallpaperRecyclerView.setLayoutManager(new GridLayoutManager(SearchActivity.this, 2));
 
@@ -144,7 +141,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void loadCollection() {
 
-        photoApi.searchCollection(query, 1, 20).enqueue(new Callback<CollectionSearchResult>() {
+        unSplashApi.searchCollection(query, 1, 20).enqueue(new Callback<CollectionSearchResult>() {
             @Override
             public void onResponse(Call<CollectionSearchResult> call, Response<CollectionSearchResult> response) {
 
@@ -164,7 +161,7 @@ public class SearchActivity extends AppCompatActivity {
 
         userRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        photoApi.searchUser(query, 1, 10).enqueue(new Callback<UserSearchResult>() {
+        unSplashApi.searchUser(query, 1, 10).enqueue(new Callback<UserSearchResult>() {
             @Override
             public void onResponse(Call<UserSearchResult> call, Response<UserSearchResult> response) {
                 userRecyclerView.setAdapter(new SearchResultAdapter().getUserAdapter(response.body()));

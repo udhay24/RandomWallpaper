@@ -14,7 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface PhotoApi {
+public interface UnSplashApi {
 
     @GET("photos/random")
     Call<Photo> getRandomPhoto();
@@ -41,7 +41,7 @@ public interface PhotoApi {
 
 class UnsplashModel {
 
-    public enum PhotoOrienttaion {
+    public enum PhotoOrientation {
         landscape, portrait, squarish
     }
 }
