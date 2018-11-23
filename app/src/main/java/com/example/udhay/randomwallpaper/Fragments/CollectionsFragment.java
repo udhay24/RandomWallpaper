@@ -69,6 +69,7 @@ public class CollectionsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         displayLoading();
 
         loadInitialCollections();

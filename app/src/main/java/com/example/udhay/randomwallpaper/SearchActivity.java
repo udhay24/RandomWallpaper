@@ -26,7 +26,6 @@ import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -127,8 +126,6 @@ public class SearchActivity extends AppCompatActivity {
         unSplashApi.searchPhotos(query, 1, 30, null, null).enqueue(new Callback<PhotoSearchResult>() {
             @Override
             public void onResponse(Call<PhotoSearchResult> call, Response<PhotoSearchResult> response) {
-
-                Timber.v("response " + response.body().getSearchPhotos().get(0).getUrls().getFull());
 
                 wallpaperRecyclerView.setLayoutManager(new GridLayoutManager(SearchActivity.this, 2));
 
