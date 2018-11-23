@@ -47,8 +47,6 @@ public class FeaturedImages extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        loadInitialImages();
     }
 
     @Override
@@ -64,6 +62,7 @@ public class FeaturedImages extends Fragment {
         progressGifView = layoutView.findViewById(R.id.preloader_1_GifView);
         errorImage = layoutView.findViewById(R.id.error_image);
 
+
         return layoutView;
     }
 
@@ -71,7 +70,9 @@ public class FeaturedImages extends Fragment {
     public void onStart() {
         super.onStart();
 
-        progressGifView.setGifImageResource(R.drawable.preloader_1);
+        displayLoading();
+
+        loadInitialImages();
 
         recyclerView.addOnScrollListener(getScrollListener());
         recyclerView.setItemAnimator(new ScaleInTopAnimator());
@@ -86,7 +87,6 @@ public class FeaturedImages extends Fragment {
         unSplashApi.getPhotos(1, 10).enqueue(new Callback<List<Photo>>() {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
-                progressGifView.setVisibility(View.GONE);
                 featuredImageAdapter = new FeaturedImageAdapter(response.body());
                 recyclerView.setAdapter(featuredImageAdapter);
             }
@@ -98,6 +98,9 @@ public class FeaturedImages extends Fragment {
                 Toast.makeText(FeaturedImages.this.getContext(), "Unable to load Images", Toast.LENGTH_SHORT).show();
             }
         });
+
+        displayImages();
+
     }
 
 
@@ -160,6 +163,8 @@ public class FeaturedImages extends Fragment {
     }
 
     private void displayLoading() {
+
+        progressGifView.setGifImageResource(R.drawable.preloader_1);
 
         recyclerView.setVisibility(View.GONE);
         progressGifView.setVisibility(View.VISIBLE);
