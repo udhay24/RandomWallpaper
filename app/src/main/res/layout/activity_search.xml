@@ -46,7 +46,8 @@
                 android:id="@+id/user_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp" />
+                android:layout_margin="4dp"
+                android:minHeight="75dp" />
 
 
             <TextView
@@ -64,7 +65,8 @@
                 android:id="@+id/collection_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp" />
+                android:layout_margin="4dp"
+                android:minHeight="150dp" />
 
 
             <TextView
@@ -82,7 +84,8 @@
                 android:id="@+id/wallpaper_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp" />
+                android:layout_margin="4dp"
+                android:minHeight="300dp" />
 
 
         </LinearLayout>
