@@ -2,6 +2,7 @@ package com.example.udhay.randomwallpaper.Util;
 
 import java.io.IOException;
 
+import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -20,13 +21,15 @@ public class AuthInterceptor implements Interceptor {
 
         Request request = chain.request();
 
-        Request newRequest = request.newBuilder().addHeader("Authorization","Client-ID "+clientId ).build();
+        Headers headers = request.headers().newBuilder().add("Authorization", "Client-ID " + clientId).build();
 
-        HttpUrl url = request.url().newBuilder().addQueryParameter("client_id" ,clientId ).build();
+        request = request.newBuilder().headers(headers).build();
 
-        newRequest = newRequest.newBuilder().url(url).build();
+        HttpUrl url = request.url().newBuilder().addQueryParameter("client_id", clientId).build();
 
+        request = request.newBuilder().url(url).build();
 
-        return chain.proceed(newRequest);
+        return chain.proceed(request);
+
     }
 }

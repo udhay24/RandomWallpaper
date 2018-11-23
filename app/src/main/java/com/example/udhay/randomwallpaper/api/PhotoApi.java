@@ -4,11 +4,13 @@ import com.example.udhay.randomwallpaper.model.Collection;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.Photo;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
+import com.example.udhay.randomwallpaper.model.User;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface PhotoApi {
@@ -29,6 +31,8 @@ public interface PhotoApi {
     @GET("/search/collections")
     Call<CollectionSearchResult> searchCollection(@Query("query") String query, @Query("page") int page, @Query("per_page") int perPage);
 
+    @GET("users/{user_name}")
+    Call<User> getUser(@Path("user_name") String userName);
 }
 
 class UnsplashModel {
