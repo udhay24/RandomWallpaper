@@ -2,6 +2,7 @@ package com.example.udhay.randomwallpaper;
 
 import android.app.SearchManager;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +51,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
 
-        SearchView searchView = (SearchView) menu.findItem(R.id.search_menu_item).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.search_menu_item).getActionView();
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchActivity.class)));
-
+        searchView.setQueryHint("Search Images...");
         return true;
     }
 
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        toolbar.collapseActionView();
+    }
 
 }
