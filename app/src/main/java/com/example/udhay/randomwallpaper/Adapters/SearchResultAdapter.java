@@ -6,11 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
+import com.example.udhay.randomwallpaper.model.User;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -120,5 +124,55 @@ public class SearchResultAdapter {
         }
     }
 
+    class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+
+        List<User> userList;
+
+        public UserAdapter(List<User> users) {
+
+            userList = users;
+        }
+
+        @NonNull
+        @Override
+        public UserViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.user_result, viewGroup, false);
+
+            return new UserViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull UserViewHolder userViewHolder, int i) {
+
+            String name = userList.get(i).getFirstName();
+
+            String url = userList.get(i).getProfileImage().getMedium();
+
+            userViewHolder.textView.setText(name);
+            Picasso.get()
+                    .load(url)
+                    .fit()
+                    .centerCrop()
+                    .into(userViewHolder.imageView);
+        }
+
+        @Override
+        public int getItemCount() {
+            return userList.size();
+        }
+
+        class UserViewHolder extends RecyclerView.ViewHolder {
+
+            ImageView imageView;
+            TextView textView;
+
+            public UserViewHolder(View view) {
+                super(view);
+                imageView = view.findViewById(R.id.photoImageView);
+                textView = view.findViewById(R.id.nameTextView);
+            }
+        }
+    }
 
 }
