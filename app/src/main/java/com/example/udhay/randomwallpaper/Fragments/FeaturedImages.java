@@ -36,6 +36,8 @@ public class FeaturedImages extends Fragment {
     private FeaturedImageAdapter featuredImageAdapter;
     private GridLayoutManager gridLayoutManager;
 
+    UnSplashApi unSplashApi;
+
     public FeaturedImages() {
         // Required empty public constructor
     }
@@ -44,16 +46,19 @@ public class FeaturedImages extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        loadInitialImages();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View layoutView = inflater.inflate(R.layout.fragment_featured_images, container, false);
-
         progressBar = layoutView.findViewById(R.id.progress_bar);
         recyclerView = layoutView.findViewById(R.id.featured_images_recycler_view);
+        gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         return layoutView;
     }
@@ -65,20 +70,15 @@ public class FeaturedImages extends Fragment {
         progressBar.setIndeterminate(true);
         progressBar.setVisibility(View.VISIBLE);
 
-        gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
-
-        recyclerView.setLayoutManager(gridLayoutManager);
-
-        loadImages();
         recyclerView.addOnScrollListener(getScrollListener());
         recyclerView.setItemAnimator(new ScaleInTopAnimator());
 
     }
 
 
-    private void loadImages() {
+    private void loadInitialImages() {
 
-        UnSplashApi unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
+        unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
 
         unSplashApi.getPhotos(1, 10).enqueue(new Callback<List<Photo>>() {
             @Override
@@ -90,36 +90,46 @@ public class FeaturedImages extends Fragment {
 
             @Override
             public void onFailure(Call<List<Photo>> call, Throwable t) {
-                Toast.makeText(FeaturedImages.this.getContext(), "Not Able to load Images", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(FeaturedImages.this.getContext(), "Unable to load Images", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     private EndlessScrollListener getScrollListener() {
 
         EndlessScrollListener endlessScrollListener = new EndlessScrollListener(gridLayoutManager) {
 
-            boolean load = true;
+            private boolean load = true;
 
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
-                UnSplashApi unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
+                unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
 
                 unSplashApi.getPhotos(page, 20).enqueue(new Callback<List<Photo>>() {
                     @Override
                     public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
 
-                        if (response.body() != null) {
+                        if (response.body() != null && response.errorBody() == null) {
+
                             List<Photo> photos = response.body();
                             featuredImageAdapter.addPhotoList(photos);
                             load = true;
+
                         } else {
+
+                            Toast.makeText(FeaturedImages.this.getContext(), "Error loading images", Toast.LENGTH_SHORT).show();
                             load = false;
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<Photo>> call, Throwable t) {
+
+                        Toast.makeText(FeaturedImages.this.getContext(), "Unable to load images", Toast.LENGTH_SHORT).show();
+                        load = false;
+
                     }
                 });
 

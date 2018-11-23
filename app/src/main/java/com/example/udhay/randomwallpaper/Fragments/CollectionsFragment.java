@@ -2,6 +2,7 @@ package com.example.udhay.randomwallpaper.Fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,10 +34,19 @@ public class CollectionsFragment extends Fragment {
     GridLayoutManager gridLayoutManager;
     CollectionsAdapter collectionsAdapter;
 
+    UnSplashApi unSplashApi;
+
     public CollectionsFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        loadInitialCollections();
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,8 +63,56 @@ public class CollectionsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        UnSplashApi unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
+        recyclerView.addOnScrollListener(getScrollListener());
+
+    }
+
+    private EndlessScrollListener getScrollListener() {
+
+
+        EndlessScrollListener endlessScrollListener = new EndlessScrollListener(30, gridLayoutManager) {
+
+            private boolean load = true;
+
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+
+                unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
+
+                unSplashApi.getCollections(page, 30).enqueue(new Callback<List<Collection>>() {
+                    @Override
+                    public void onResponse(Call<List<Collection>> call, Response<List<Collection>> response) {
+
+                        if (response.body() != null && response.errorBody() == null) {
+
+                            collectionsAdapter.addCollection(response.body());
+                            load = true;
+                        } else {
+
+                            Toast.makeText(CollectionsFragment.this.getContext(), "Error loading collections", Toast.LENGTH_SHORT).show();
+                            load = false;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Collection>> call, Throwable t) {
+
+                        Toast.makeText(CollectionsFragment.this.getContext(), "Unable to load collections", Toast.LENGTH_SHORT).show();
+                        load = false;
+                    }
+                });
+                return load;
+            }
+        };
+        return endlessScrollListener;
+    }
+
+    private void loadInitialCollections() {
+
+        unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
+
         unSplashApi.getCollections(1, 10).enqueue(new Callback<List<Collection>>() {
+
             @Override
             public void onResponse(Call<List<Collection>> call, Response<List<Collection>> response) {
                 collectionsAdapter = new CollectionsAdapter(response.body());
@@ -63,34 +121,9 @@ public class CollectionsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Collection>> call, Throwable t) {
-                Toast.makeText(CollectionsFragment.this.getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(CollectionsFragment.this.getContext(), "Unable to load collections", Toast.LENGTH_SHORT).show();
             }
         });
-
-        recyclerView.addOnScrollListener(getScrollListener());
-
-    }
-
-    private EndlessScrollListener getScrollListener() {
-
-        EndlessScrollListener endlessScrollListener = new EndlessScrollListener(gridLayoutManager) {
-            @Override
-            public boolean onLoadMore(int page, int totalItemsCount) {
-                UnSplashApi unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
-                unSplashApi.getCollections(page, 10).enqueue(new Callback<List<Collection>>() {
-                    @Override
-                    public void onResponse(Call<List<Collection>> call, Response<List<Collection>> response) {
-                        collectionsAdapter.addCollection(response.body());
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Collection>> call, Throwable t) {
-
-                    }
-                });
-                return true;
-            }
-        };
-        return endlessScrollListener;
     }
 }
