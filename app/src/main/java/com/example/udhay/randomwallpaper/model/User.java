@@ -65,27 +65,7 @@ public class User {
     @SerializedName("photos")
     @Expose
     private List<Photo> photos = null;
-    @SerializedName("badge")
-    @Expose
-    private Badge badge;
-    @SerializedName("downloads")
-    @Expose
-    private Integer downloads;
-    @SerializedName("tags")
-    @Expose
-    private Tags tags;
-    @SerializedName("followers_count")
-    @Expose
-    private Integer followersCount;
-    @SerializedName("following_count")
-    @Expose
-    private Integer followingCount;
-    @SerializedName("allow_messages")
-    @Expose
-    private Boolean allowMessages;
-    @SerializedName("numeric_id")
-    @Expose
-    private Integer numericId;
+
 
     public String getId() {
         return id;
@@ -239,127 +219,6 @@ public class User {
         this.photos = photos;
     }
 
-    public Badge getBadge() {
-        return badge;
-    }
-
-    public void setBadge(Badge badge) {
-        this.badge = badge;
-    }
-
-    public Integer getDownloads() {
-        return downloads;
-    }
-
-    public void setDownloads(Integer downloads) {
-        this.downloads = downloads;
-    }
-
-    public Tags getTags() {
-        return tags;
-    }
-
-    public void setTags(Tags tags) {
-        this.tags = tags;
-    }
-
-    public Integer getFollowersCount() {
-        return followersCount;
-    }
-
-    public void setFollowersCount(Integer followersCount) {
-        this.followersCount = followersCount;
-    }
-
-    public Integer getFollowingCount() {
-        return followingCount;
-    }
-
-    public void setFollowingCount(Integer followingCount) {
-        this.followingCount = followingCount;
-    }
-
-    public Boolean getAllowMessages() {
-        return allowMessages;
-    }
-
-    public void setAllowMessages(Boolean allowMessages) {
-        this.allowMessages = allowMessages;
-    }
-
-    public Integer getNumericId() {
-        return numericId;
-    }
-
-    public void setNumericId(Integer numericId) {
-        this.numericId = numericId;
-    }
-
-
-    public static class Aggregated {
-
-        @SerializedName("title")
-        @Expose
-        private String title;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-    }
-
-    public static class Badge {
-
-        @SerializedName("title")
-        @Expose
-        private String title;
-        @SerializedName("primary")
-        @Expose
-        private Boolean primary;
-        @SerializedName("slug")
-        @Expose
-        private String slug;
-        @SerializedName("link")
-        @Expose
-        private String link;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public Boolean getPrimary() {
-            return primary;
-        }
-
-        public void setPrimary(Boolean primary) {
-            this.primary = primary;
-        }
-
-        public String getSlug() {
-            return slug;
-        }
-
-        public void setSlug(String slug) {
-            this.slug = slug;
-        }
-
-        public String getLink() {
-            return link;
-        }
-
-        public void setLink(String link) {
-            this.link = link;
-        }
-
-    }
 
     public static class Custom {
 
@@ -738,32 +597,7 @@ public class User {
 
     }
 
-    public static class Tags {
 
-        @SerializedName("custom")
-        @Expose
-        private List<Custom> custom = null;
-        @SerializedName("aggregated")
-        @Expose
-        private List<Aggregated> aggregated = null;
-
-        public List<Custom> getCustom() {
-            return custom;
-        }
-
-        public void setCustom(List<Custom> custom) {
-            this.custom = custom;
-        }
-
-        public List<Aggregated> getAggregated() {
-            return aggregated;
-        }
-
-        public void setAggregated(List<Aggregated> aggregated) {
-            this.aggregated = aggregated;
-        }
-
-    }
 
     public static class Urls {
 

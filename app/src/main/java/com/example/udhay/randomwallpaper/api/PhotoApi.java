@@ -5,6 +5,7 @@ import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.Photo;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 import com.example.udhay.randomwallpaper.model.User;
+import com.example.udhay.randomwallpaper.model.UserSearchResult;
 
 import java.util.List;
 
@@ -28,11 +29,14 @@ public interface PhotoApi {
     Call<PhotoSearchResult> searchPhotos(@Query("query") String Query, @Query("page") int page, @Query("per_page") int perPage
             , @Query("collections") String collection, @Query("orientation") String orientation);
 
-    @GET("/search/collections")
+    @GET("search/collections")
     Call<CollectionSearchResult> searchCollection(@Query("query") String query, @Query("page") int page, @Query("per_page") int perPage);
 
     @GET("users/{user_name}")
     Call<User> getUser(@Path("user_name") String userName);
+
+    @GET("search/users")
+    Call<UserSearchResult> getUser(@Query("query") String query, @Query("page") int page, @Query("per_page") int perPage);
 }
 
 class UnsplashModel {
