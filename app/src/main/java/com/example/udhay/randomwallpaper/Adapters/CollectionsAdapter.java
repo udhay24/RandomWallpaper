@@ -47,7 +47,7 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
     }
 
     public void addCollection(List<Collection> list) {
-        int lastPosition = this.getItemCount() - 1;
+        int lastPosition = this.getItemCount();
         collections.addAll(list);
         this.notifyItemRangeInserted(lastPosition, list.size());
 

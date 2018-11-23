@@ -1,6 +1,7 @@
 package com.example.udhay.randomwallpaper.api;
 
 import com.example.udhay.randomwallpaper.model.Collection;
+import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.Photo;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 
@@ -25,11 +26,14 @@ public interface PhotoApi {
     Call<PhotoSearchResult> searchPhotos(@Query("query") String Query, @Query("page") int page, @Query("per_page") int perPage
             , @Query("collections") String collection, @Query("orientation") String orientation);
 
+    @GET("/search/collections")
+    Call<CollectionSearchResult> searchCollection(@Query("query") String query, @Query("page") int page, @Query("per_page") int perPage);
+
 }
 
 class UnsplashModel {
 
-    public enum collections {
+    public enum PhotoOrienttaion {
         landscape, portrait, squarish
     }
 }

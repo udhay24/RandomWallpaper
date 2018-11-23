@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.udhay.randomwallpaper.R;
+import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 import com.squareup.picasso.Picasso;
 
@@ -18,6 +19,12 @@ public class SearchResultAdapter {
     public WallpaperAdapter getWallpaperAdapter(PhotoSearchResult result) {
         return new WallpaperAdapter(result);
     }
+
+
+    public CollectionsAdapter getCollectionsAdapter(CollectionSearchResult result) {
+        return new CollectionsAdapter(result);
+    }
+
 
     class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.PhotoViewHolder> {
 
@@ -68,6 +75,19 @@ public class SearchResultAdapter {
                 imageView = view.findViewById(R.id.imageView);
             }
         }
+
+    }
+
+
+    class CollectionsAdapter extends com.example.udhay.randomwallpaper.Adapters.CollectionsAdapter {
+
+        CollectionSearchResult searchResult;
+
+        CollectionsAdapter(CollectionSearchResult result) {
+            super(result.getCollections());
+            searchResult = result;
+        }
+
 
     }
 }
