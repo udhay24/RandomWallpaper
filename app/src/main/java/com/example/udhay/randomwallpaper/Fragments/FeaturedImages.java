@@ -15,7 +15,7 @@ import com.example.udhay.randomwallpaper.Adapters.FeaturedImageAdapter;
 import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.Util.RetrofitClient;
-import com.example.udhay.randomwallpaper.api.PhotoApi;
+import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.Photo;
 
 import java.util.List;
@@ -78,9 +78,9 @@ public class FeaturedImages extends Fragment {
 
     private void loadImages() {
 
-        PhotoApi photoApi = RetrofitClient.getClient().create(PhotoApi.class);
+        UnSplashApi unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
 
-        photoApi.getPhotos(1, 10).enqueue(new Callback<List<Photo>>() {
+        unSplashApi.getPhotos(1, 10).enqueue(new Callback<List<Photo>>() {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
                 progressBar.setVisibility(View.GONE);
@@ -100,8 +100,8 @@ public class FeaturedImages extends Fragment {
         EndlessScrollListener endlessScrollListener = new EndlessScrollListener(gridLayoutManager) {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
-                PhotoApi photoApi = RetrofitClient.getClient().create(PhotoApi.class);
-                photoApi.getPhotos(page, 20).enqueue(new Callback<List<Photo>>() {
+                UnSplashApi unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
+                unSplashApi.getPhotos(page, 20).enqueue(new Callback<List<Photo>>() {
                     @Override
                     public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
                         List<Photo> photos = response.body();

@@ -14,7 +14,7 @@ import com.example.udhay.randomwallpaper.Adapters.CollectionsAdapter;
 import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.Util.RetrofitClient;
-import com.example.udhay.randomwallpaper.api.PhotoApi;
+import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.Collection;
 
 import java.util.List;
@@ -53,8 +53,8 @@ public class CollectionsFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        PhotoApi photoApi = RetrofitClient.getClient().create(PhotoApi.class);
-        photoApi.getCollections(1, 10).enqueue(new Callback<List<Collection>>() {
+        UnSplashApi unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
+        unSplashApi.getCollections(1, 10).enqueue(new Callback<List<Collection>>() {
             @Override
             public void onResponse(Call<List<Collection>> call, Response<List<Collection>> response) {
                 collectionsAdapter = new CollectionsAdapter(response.body());
@@ -76,8 +76,8 @@ public class CollectionsFragment extends Fragment {
         EndlessScrollListener endlessScrollListener = new EndlessScrollListener(gridLayoutManager) {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
-                PhotoApi photoApi = RetrofitClient.getClient().create(PhotoApi.class);
-                photoApi.getCollections(page, 10).enqueue(new Callback<List<Collection>>() {
+                UnSplashApi unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
+                unSplashApi.getCollections(page, 10).enqueue(new Callback<List<Collection>>() {
                     @Override
                     public void onResponse(Call<List<Collection>> call, Response<List<Collection>> response) {
                         collectionsAdapter.addCollection(response.body());
