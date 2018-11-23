@@ -1,10 +1,12 @@
 package com.example.udhay.randomwallpaper.Adapters;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,12 +60,15 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
         View view;
         ImageView collectionImage;
         TextView collectionTitle;
-
+        CardView collectionCardView;
+        FrameLayout collectionFrameLayout;
 
         public CollectionViewHolder(View view) {
             super(view);
             collectionImage = view.findViewById(R.id.collection_image);
             collectionTitle = view.findViewById(R.id.collection_title);
+            collectionCardView = view.findViewById(R.id.collection_card_view);
+            collectionFrameLayout = view.findViewById(R.id.collection_frame_layout);
         }
     }
 }

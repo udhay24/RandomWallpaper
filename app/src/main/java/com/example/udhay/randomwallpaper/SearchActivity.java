@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.example.udhay.randomwallpaper.Adapters.SearchResultAdapter;
 import com.example.udhay.randomwallpaper.Util.RetrofitClient;
 import com.example.udhay.randomwallpaper.api.PhotoApi;
+import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 
 import butterknife.BindView;
@@ -107,7 +109,11 @@ public class SearchActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
 
         query = intent.getStringExtra(SearchManager.QUERY);
+
+        loadCollection();
+
         loadWallpaper();
+
     }
 
     private void loadWallpaper() {
@@ -131,5 +137,21 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    private void loadCollection() {
 
+        photoApi.searchCollection(query, 1, 20).enqueue(new Callback<CollectionSearchResult>() {
+            @Override
+            public void onResponse(Call<CollectionSearchResult> call, Response<CollectionSearchResult> response) {
+
+                collectionRecyclerView.setLayoutManager(new LinearLayoutManager(SearchActivity.this, LinearLayoutManager.HORIZONTAL, false));
+
+                collectionRecyclerView.setAdapter(new SearchResultAdapter().getCollectionsAdapter(response.body()));
+            }
+
+            @Override
+            public void onFailure(Call<CollectionSearchResult> call, Throwable t) {
+
+            }
+        });
+    }
 }

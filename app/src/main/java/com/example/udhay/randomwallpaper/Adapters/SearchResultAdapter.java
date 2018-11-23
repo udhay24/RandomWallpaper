@@ -88,6 +88,37 @@ public class SearchResultAdapter {
             searchResult = result;
         }
 
+        @Override
+        public void onBindViewHolder(@NonNull CollectionViewHolder collectionViewHolder, int i) {
+            super.onBindViewHolder(collectionViewHolder, i);
 
+
+            Picasso.get()
+                    .load(super.collections.get(i).getCoverPhoto().getUrls().getRegular())
+                    .fit()
+                    .centerCrop()
+                    .into(collectionViewHolder.collectionImage);
+        }
+
+        @NonNull
+        @Override
+        public CollectionViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            CollectionViewHolder collectionViewHolder = super.onCreateViewHolder(viewGroup, i);
+
+            ViewGroup.LayoutParams params = collectionViewHolder.collectionFrameLayout.getLayoutParams();
+            params.height = 400;
+            params.width = 400;
+            collectionViewHolder.collectionFrameLayout.requestLayout();
+
+            params = collectionViewHolder.collectionCardView.getLayoutParams();
+            params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+            collectionViewHolder.collectionCardView.requestLayout();
+
+            return collectionViewHolder;
+        }
     }
+
+
 }
