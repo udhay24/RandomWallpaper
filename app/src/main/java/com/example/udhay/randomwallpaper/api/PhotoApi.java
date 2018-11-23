@@ -36,7 +36,7 @@ public interface PhotoApi {
     Call<User> getUser(@Path("user_name") String userName);
 
     @GET("search/users")
-    Call<UserSearchResult> getUser(@Query("query") String query, @Query("page") int page, @Query("per_page") int perPage);
+    Call<UserSearchResult> searchUser(@Query("query") String query, @Query("page") int page, @Query("per_page") int perPage);
 }
 
 class UnsplashModel {

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
-import com.example.udhay.randomwallpaper.model.User;
+import com.example.udhay.randomwallpaper.model.UserSearchResult;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -29,6 +29,9 @@ public class SearchResultAdapter {
         return new CollectionsAdapter(result);
     }
 
+    public UserAdapter getUserAdapter(UserSearchResult result) {
+        return new UserAdapter(result);
+    }
 
     class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.PhotoViewHolder> {
 
@@ -99,8 +102,6 @@ public class SearchResultAdapter {
 
             Picasso.get()
                     .load(super.collections.get(i).getCoverPhoto().getUrls().getRegular())
-                    .fit()
-                    .centerCrop()
                     .into(collectionViewHolder.collectionImage);
         }
 
@@ -120,17 +121,20 @@ public class SearchResultAdapter {
 
             collectionViewHolder.collectionCardView.requestLayout();
 
+            collectionViewHolder.collectionImage.setAlpha(0.7f);
+
             return collectionViewHolder;
         }
     }
 
+
     class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
-        List<User> userList;
+        List<UserSearchResult.SearchUser> userList;
 
-        public UserAdapter(List<User> users) {
+        public UserAdapter(UserSearchResult searchResult) {
 
-            userList = users;
+            userList = searchResult.getSearchUsers();
         }
 
         @NonNull
@@ -147,7 +151,7 @@ public class SearchResultAdapter {
 
             String name = userList.get(i).getFirstName();
 
-            String url = userList.get(i).getProfileImage().getMedium();
+            String url = userList.get(i).getProfileImage().getLarge();
 
             userViewHolder.textView.setText(name);
             Picasso.get()

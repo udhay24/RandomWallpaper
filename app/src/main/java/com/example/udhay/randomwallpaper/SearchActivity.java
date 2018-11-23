@@ -18,9 +18,11 @@ import com.example.udhay.randomwallpaper.Util.RetrofitClient;
 import com.example.udhay.randomwallpaper.api.PhotoApi;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
+import com.example.udhay.randomwallpaper.model.UserSearchResult;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,10 +37,10 @@ public class SearchActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindView(R.id.artist_text_view)
-    TextView textView;
-    @BindView(R.id.artist_recycler_view)
-    RecyclerView artistRecyclerView;
+    @BindView(R.id.user_text_view)
+    TextView userTextView;
+    @BindView(R.id.user_recycler_view)
+    RecyclerView userRecyclerView;
     @BindView(R.id.collection_text_view)
     TextView collectionTextView;
     @BindView(R.id.collection_recycler_view)
@@ -110,9 +112,12 @@ public class SearchActivity extends AppCompatActivity {
 
         query = intent.getStringExtra(SearchManager.QUERY);
 
+        loadUsers();
+
         loadCollection();
 
         loadWallpaper();
+
 
     }
 
@@ -150,6 +155,24 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<CollectionSearchResult> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void loadUsers() {
+
+        userRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        photoApi.searchUser(query, 1, 10).enqueue(new Callback<UserSearchResult>() {
+            @Override
+            public void onResponse(Call<UserSearchResult> call, Response<UserSearchResult> response) {
+                userRecyclerView.setAdapter(new SearchResultAdapter().getUserAdapter(response.body()));
+                userRecyclerView.setItemAnimator(new OvershootInLeftAnimator());
+            }
+
+            @Override
+            public void onFailure(Call<UserSearchResult> call, Throwable t) {
 
             }
         });
