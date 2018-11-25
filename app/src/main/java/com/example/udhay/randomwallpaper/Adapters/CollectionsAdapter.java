@@ -20,6 +20,8 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
 
     List<Collection> collections;
 
+    ClickListener clickListener;
+
     public CollectionsAdapter(List<Collection> collectionList) {
         collections = collectionList;
     }
@@ -41,6 +43,8 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
         Picasso.get()
                 .load(collections.get(i).getCoverPhoto().getUrls().getSmall())
                 .into(collectionViewHolder.collectionImage);
+
+        clickListener.onCLick(collections.get(i).getId());
     }
 
     @Override
@@ -71,5 +75,15 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
             collectionCardView = view.findViewById(R.id.collection_card_view);
             collectionFrameLayout = view.findViewById(R.id.collection_frame_layout);
         }
+    }
+
+    public void setClickListener(ClickListener listener) {
+
+        clickListener = listener;
+    }
+
+    public interface ClickListener {
+
+        void onCLick(int id);
     }
 }
