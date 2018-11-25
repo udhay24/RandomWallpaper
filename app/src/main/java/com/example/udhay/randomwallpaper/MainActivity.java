@@ -12,6 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import com.example.udhay.randomwallpaper.Adapters.MainViewPagerAdapter;
+import com.example.udhay.randomwallpaper.DB.TinyDB;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     SearchView searchView;
 
+    TinyDB db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager()));
+
+
+        //Setting Up TinyDB
+        db = new TinyDB(this);
+
+
     }
 
     @Override
@@ -57,6 +68,21 @@ public class MainActivity extends AppCompatActivity {
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchActivity.class)));
         searchView.setQueryHint("Search Images...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                ArrayList<String> queryData;
+                queryData = db.getListString("Query");
+                queryData.add(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                ArrayList<String> queryData = db.getListString("Query");
+                return false;
+            }
+        });
         return true;
     }
 
