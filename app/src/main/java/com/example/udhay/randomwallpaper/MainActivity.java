@@ -2,7 +2,10 @@ package com.example.udhay.randomwallpaper;
 
 import android.app.SearchManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -10,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CursorAdapter;
 
 import com.example.udhay.randomwallpaper.Adapters.MainViewPagerAdapter;
 import com.example.udhay.randomwallpaper.DB.TinyDB;
@@ -71,15 +77,11 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                ArrayList<String> queryData;
-                queryData = db.getListString("Query");
-                queryData.add(s);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                ArrayList<String> queryData = db.getListString("Query");
                 return false;
             }
         });
