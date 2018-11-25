@@ -1,14 +1,21 @@
 package com.example.udhay.randomwallpaper.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.udhay.randomwallpaper.DB.TinyDB;
+import com.example.udhay.randomwallpaper.MainActivity;
 import com.example.udhay.randomwallpaper.R;
+import com.example.udhay.randomwallpaper.WallpaperActivity;
 import com.example.udhay.randomwallpaper.model.Photo;
 import com.squareup.picasso.Picasso;
 
@@ -37,9 +44,9 @@ public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PhotoViewHolder photoViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final PhotoViewHolder photoViewHolder, int i) {
 
-        Photo photo = photoList.get(i);
+        final Photo photo = photoList.get(i);
 
         Picasso.get()
                 .load(photo.getUrls().getRegular())
@@ -48,6 +55,22 @@ public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdap
                 .fit()
                 .centerCrop()
                 .into(photoViewHolder.getView());
+
+        photoViewHolder.getView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, WallpaperActivity.class);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation((Activity) context,
+                                photoViewHolder.imageView,
+                                ViewCompat.getTransitionName(photoViewHolder.imageView));
+                TinyDB db = new TinyDB(context);
+                db.putString("ImageID",photo.getUrls().getRegular());
+                db.putString("Author",photo.getUser().getName());
+                context.startActivity(intent,options.toBundle());
+            }
+        });
+
     }
 
     @Override

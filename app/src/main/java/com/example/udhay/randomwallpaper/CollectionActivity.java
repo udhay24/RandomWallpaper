@@ -21,7 +21,7 @@ public class CollectionActivity extends AppCompatActivity {
 
     //UI Components
     @BindView(R.id.toolbar)
-    private Toolbar toolbar;
+    public Toolbar toolbar;
     private RecyclerView recyclerView;
     private ImageView errorImage;
     private FeaturedImageAdapter featuredImageAdapter;

@@ -53,12 +53,12 @@ public class FeaturedImages extends Fragment {
         recyclerView = layoutView.findViewById(R.id.featured_images_recycler_view);
         gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
-
         progressGifView = layoutView.findViewById(R.id.preloader_1_GifView);
         errorImage = layoutView.findViewById(R.id.error_image);
 
 
         return layoutView;
+
     }
 
     @Override
@@ -160,7 +160,6 @@ public class FeaturedImages extends Fragment {
     private void displayLoading() {
 
         progressGifView.setGifImageResource(R.drawable.preloader_1);
-
         recyclerView.setVisibility(View.GONE);
         progressGifView.setVisibility(View.VISIBLE);
         errorImage.setVisibility(View.GONE);
