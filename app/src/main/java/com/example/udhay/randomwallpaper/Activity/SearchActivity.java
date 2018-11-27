@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper;
+package com.example.udhay.randomwallpaper.Activity;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.udhay.randomwallpaper.Adapters.SearchResultAdapter;
+import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.Util.RetrofitClient;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
