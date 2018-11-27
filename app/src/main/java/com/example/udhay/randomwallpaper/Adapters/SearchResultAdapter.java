@@ -58,7 +58,7 @@ public class SearchResultAdapter {
 
             Picasso.get()
                     .load(photoSearchResult.getSearchPhotos().get(i).getUrls().getRegular())
-                    .placeholder(R.drawable.ic_sand_clock)
+                    .placeholder(R.drawable.placeholder)
                     .fit()
                     .centerCrop()
                     .into(photoViewHolder.imageView);
@@ -102,6 +102,7 @@ public class SearchResultAdapter {
 
             Picasso.get()
                     .load(super.collections.get(i).getCoverPhoto().getUrls().getRegular())
+                    .placeholder(R.drawable.placeholder)
                     .into(collectionViewHolder.collectionImage);
         }
 
@@ -156,6 +157,7 @@ public class SearchResultAdapter {
             userViewHolder.textView.setText(name);
             Picasso.get()
                     .load(url)
+                    .placeholder(R.drawable.placeholder)
                     .fit()
                     .centerCrop()
                     .into(userViewHolder.imageView);

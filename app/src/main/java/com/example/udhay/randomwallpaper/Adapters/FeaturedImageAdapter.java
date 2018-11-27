@@ -19,11 +19,15 @@ public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdap
 
     private Context context;
 
-    private List<Photo> photoList;
+    private static List<Photo> photoList;
 
-    public FeaturedImageAdapter(List<Photo> list) {
+    private ClickInterface clickInterface;
 
-        this.photoList = list;
+    public FeaturedImageAdapter(List<Photo> list, ClickInterface clickInterface) {
+
+        photoList = list;
+
+        this.clickInterface = clickInterface;
     }
 
     @NonNull
@@ -31,9 +35,19 @@ public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdap
     public PhotoViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         this.context = viewGroup.getContext();
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.featured_image_view_holder, viewGroup, false);
+        final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.featured_image_view_holder, viewGroup, false);
 
-        return new PhotoViewHolder(view);
+        PhotoViewHolder viewHolder = new PhotoViewHolder(view);
+
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                clickInterface.onClick(view);
+            }
+        });
+
+        return viewHolder;
     }
 
     @Override
@@ -48,6 +62,7 @@ public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdap
                 .fit()
                 .centerCrop()
                 .into(photoViewHolder.getView());
+
     }
 
     @Override
@@ -88,4 +103,12 @@ public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdap
         this.notifyDataSetChanged();
     }
 
+    public List<Photo> getList() {
+        return photoList;
+    }
+
+    public interface ClickInterface {
+
+        void onClick(View view);
+    }
 }

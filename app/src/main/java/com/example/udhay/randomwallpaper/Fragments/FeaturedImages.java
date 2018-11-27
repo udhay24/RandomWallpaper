@@ -1,6 +1,7 @@
 package com.example.udhay.randomwallpaper.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.udhay.randomwallpaper.Activity.PhotoActivity;
 import com.example.udhay.randomwallpaper.Adapters.FeaturedImageAdapter;
 import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.R;
@@ -82,7 +84,19 @@ public class FeaturedImages extends Fragment {
         unSplashApi.getPhotos(1, 10).enqueue(new Callback<List<Photo>>() {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
-                featuredImageAdapter = new FeaturedImageAdapter(response.body());
+                featuredImageAdapter = new FeaturedImageAdapter(response.body(), new FeaturedImageAdapter.ClickInterface() {
+                    @Override
+                    public void onClick(View view) {
+
+                        int position = recyclerView.getChildAdapterPosition(view);
+
+                        Intent intent = new Intent(FeaturedImages.this.getContext(), PhotoActivity.class);
+
+                        intent.putExtra("url", featuredImageAdapter.getList().get(position).getUrls().getFull());
+
+                        startActivity(intent);
+                    }
+                });
                 recyclerView.setAdapter(featuredImageAdapter);
             }
 
