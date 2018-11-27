@@ -3,18 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
     tools:context=".Activity.PhotoActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/transparent" />
+        android:layout_height="70dp"
+        android:background="#96292c2d"
+        android:elevation="24dp"
+        android:fitsSystemWindows="true"
+        app:title="title"
+        app:titleTextColor="@color/md_white_1000" />
 
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:scaleType="centerCrop" />
 
     <include layout="@layout/photo_bottom_sheet" />

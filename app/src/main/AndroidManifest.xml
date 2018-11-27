@@ -44,7 +44,9 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".Activity.PhotoActivity"></activity>
+        <activity
+            android:name=".Activity.PhotoActivity"
+            android:parentActivityName=".Activity.MainActivity"></activity>
     </application>
 
 </manifest>
