@@ -84,6 +84,7 @@ public class FeaturedImages extends Fragment {
         unSplashApi.getPhotos(1, 10).enqueue(new Callback<List<Photo>>() {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+
                 featuredImageAdapter = new FeaturedImageAdapter(response.body(), new FeaturedImageAdapter.ClickInterface() {
                     @Override
                     public void onClick(View view) {
@@ -92,7 +93,7 @@ public class FeaturedImages extends Fragment {
 
                         Intent intent = new Intent(FeaturedImages.this.getContext(), PhotoActivity.class);
 
-                        intent.putExtra("url", featuredImageAdapter.getList().get(position).getUrls().getFull());
+                        intent.putExtra(PhotoActivity.ID, featuredImageAdapter.getList().get(position).getId());
 
                         startActivity(intent);
                     }

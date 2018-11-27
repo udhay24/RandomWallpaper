@@ -37,6 +37,9 @@ public interface UnSplashApi {
 
     @GET("search/users")
     Call<UserSearchResult> searchUser(@Query("query") String query, @Query("page") int page, @Query("per_page") int perPage);
+
+    @GET("photos/{id}")
+    Call<Photo> getPhotoById(@Path("id") String id);
 }
 
 class UnsplashModel {
