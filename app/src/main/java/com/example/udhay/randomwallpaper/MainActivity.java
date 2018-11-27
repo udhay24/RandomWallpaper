@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
 import com.example.udhay.randomwallpaper.Adapters.MainViewPagerAdapter;
-import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.example.udhay.randomwallpaper.Util.DrawerUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager()));
 
-        new DrawerBuilder().withActivity(this).build();
+        DrawerUtil.getDrawer(this, toolbar);
     }
 
     @Override
@@ -68,5 +68,6 @@ public class MainActivity extends AppCompatActivity {
         super.startActivity(intent);
         toolbar.collapseActionView();
     }
+
 
 }
