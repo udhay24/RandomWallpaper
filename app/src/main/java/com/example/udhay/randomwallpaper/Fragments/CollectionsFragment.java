@@ -137,10 +137,11 @@ public class CollectionsFragment extends Fragment {
 
                         int position = recyclerView.getChildAdapterPosition(view);
                         int id = collectionsAdapter.getCollections().get(position).getId();
+                        String title = collectionsAdapter.getCollections().get(position).getTitle();
 
                         Intent intent = new Intent(CollectionsFragment.this.getContext(), CollectionDetailActivity.class);
                         intent.putExtra(CollectionDetailActivity.COLLECTION_ID, id);
-
+                        intent.putExtra(CollectionDetailActivity.COLLECTION_TITLE, title);
                         startActivity(intent);
 
                     }

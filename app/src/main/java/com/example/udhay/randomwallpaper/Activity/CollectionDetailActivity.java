@@ -28,15 +28,19 @@ import retrofit2.Response;
 public class CollectionDetailActivity extends AppCompatActivity {
 
     public static final String COLLECTION_ID = "collection_id";
+    public static final String COLLECTION_TITLE = "collectionTitle";
+
+    UnSplashApi unSplashApi;
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    UnSplashApi unSplashApi;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
     FeaturedImageAdapter featuredImageAdapter;
     GridLayoutManager gridLayoutManager;
+
     private int id;
     private String collectionTitle;
 
@@ -47,7 +51,13 @@ public class CollectionDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        id = getIntent().getIntExtra(COLLECTION_ID, 0);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (getIntent() != null) {
+            id = getIntent().getIntExtra(COLLECTION_ID, 0);
+            collectionTitle = getIntent().getStringExtra(COLLECTION_TITLE);
+        }
+        getSupportActionBar().setTitle(collectionTitle);
 
         gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(gridLayoutManager);

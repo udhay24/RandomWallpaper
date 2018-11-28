@@ -48,7 +48,11 @@
         <activity
             android:name=".Activity.PhotoDetailActivity"
             android:parentActivityName=".Activity.MainActivity" />
-        <activity android:name=".Activity.CollectionDetailActivity"></activity>
+
+        <activity
+            android:name=".Activity.CollectionDetailActivity"
+            android:parentActivityName=".Activity.MainActivity"></activity>
+
     </application>
 
 </manifest>
