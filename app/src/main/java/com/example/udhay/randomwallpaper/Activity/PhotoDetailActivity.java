@@ -2,6 +2,9 @@ package com.example.udhay.randomwallpaper.Activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -31,8 +34,10 @@ public class PhotoDetailActivity extends AppCompatActivity {
     private String id;
     private Photo selectedPhoto;
 
-    @BindView(R.id.image_view)
-    ImageView imageView;
+    @BindView(R.id.photo_image_view)
+    ImageView photoImageView;
+    @BindView(R.id.bottom_sheet)
+    ConstraintLayout bottomSheetLayout;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -48,7 +53,9 @@ public class PhotoDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.description)
     TextView description;
-    
+    @BindView(R.id.bottom_sheet_arrow)
+    ImageView arrowImageView;
+    private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +94,42 @@ public class PhotoDetailActivity extends AppCompatActivity {
             }
         });
 
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
+
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View view, int i) {
+                switch (i) {
+                    case BottomSheetBehavior.STATE_HIDDEN:
+                        break;
+                    case BottomSheetBehavior.STATE_EXPANDED: {
+                        closeArrow();
+                    }
+                    break;
+                    case BottomSheetBehavior.STATE_COLLAPSED: {
+                        openArrow();
+                    }
+                    break;
+                    case BottomSheetBehavior.STATE_DRAGGING:
+                        break;
+                    case BottomSheetBehavior.STATE_SETTLING:
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onSlide(@NonNull View view, float v) {
+
+            }
+        });
+
+        arrowImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleBottomSheet();
+            }
+        });
     }
 
     private void loadImage() {
@@ -100,7 +143,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
                 selectedPhoto = response.body();
                 Picasso.get()
                         .load(selectedPhoto.getUrls().getRegular())
-                        .into(imageView);
+                        .into(photoImageView);
 
                 if (selectedPhoto.getDescription() != null) {
                     description.setText(selectedPhoto.getDescription());
@@ -155,5 +198,24 @@ public class PhotoDetailActivity extends AppCompatActivity {
         Toast.makeText(PhotoDetailActivity.this, "downloaded", Toast.LENGTH_SHORT).show();
     }
 
+    public void toggleBottomSheet() {
+        if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            closeArrow();
+        } else {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            openArrow();
+        }
+    }
+
+    private void openArrow() {
+
+        arrowImageView.setRotation(90);
+    }
+
+    private void closeArrow() {
+
+        arrowImageView.setRotation(270);
+    }
 }
 
