@@ -40,6 +40,11 @@ public interface UnSplashApi {
 
     @GET("photos/{id}")
     Call<Photo> getPhotoById(@Path("id") String id);
+
+    @GET("collections/{id}/photos")
+    Call<List<Photo>> getCollectionById(@Path("id") int id, @Query("page") int page, @Query("per_page") int perPage);
+
+
 }
 
 class UnsplashModel {
