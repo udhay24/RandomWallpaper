@@ -1,6 +1,7 @@
 package com.example.udhay.randomwallpaper.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.udhay.randomwallpaper.Activity.CollectionDetailActivity;
 import com.example.udhay.randomwallpaper.Adapters.CollectionsAdapter;
+import com.example.udhay.randomwallpaper.Interfaces.ClickInterface;
 import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.Util.GifImageView;
@@ -128,7 +131,20 @@ public class CollectionsFragment extends Fragment {
 
             @Override
             public void onResponse(Call<List<Collection>> call, Response<List<Collection>> response) {
-                collectionsAdapter = new CollectionsAdapter(response.body());
+                collectionsAdapter = new CollectionsAdapter(response.body(), new ClickInterface() {
+                    @Override
+                    public void onClick(View view) {
+
+                        int position = recyclerView.getChildAdapterPosition(view);
+                        int id = collectionsAdapter.getCollections().get(position).getId();
+
+                        Intent intent = new Intent(CollectionsFragment.this.getContext(), CollectionDetailActivity.class);
+                        intent.putExtra(CollectionDetailActivity.COLLECTION_ID, id);
+
+                        startActivity(intent);
+
+                    }
+                });
                 recyclerView.setAdapter(collectionsAdapter);
             }
 

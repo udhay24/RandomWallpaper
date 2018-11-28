@@ -23,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PhotoActivity extends AppCompatActivity {
+public class PhotoDetailActivity extends AppCompatActivity {
 
     public static final String ID = "photo_id";
     private static final int SET_WALLPAPER_ID = 24;
@@ -121,8 +121,6 @@ public class PhotoActivity extends AppCompatActivity {
 
         menu.add(Menu.NONE, SET_WALLPAPER_ID, Menu.NONE, "Set Wallpaper").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-
-
         return true;
     }
 
@@ -144,18 +142,18 @@ public class PhotoActivity extends AppCompatActivity {
 
     private void saveImage() {
 
-        Toast.makeText(PhotoActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(PhotoDetailActivity.this, "Saved", Toast.LENGTH_SHORT).show();
     }
 
     private void shareImage() {
 
-        Toast.makeText(PhotoActivity.this, "share", Toast.LENGTH_SHORT).show();
+        Toast.makeText(PhotoDetailActivity.this, "share", Toast.LENGTH_SHORT).show();
     }
 
     private void downloadImage() {
 
-        Toast.makeText(PhotoActivity.this, "downloaded", Toast.LENGTH_SHORT).show();
+        Toast.makeText(PhotoDetailActivity.this, "downloaded", Toast.LENGTH_SHORT).show();
     }
 
-
 }
+

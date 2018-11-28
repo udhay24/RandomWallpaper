@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.udhay.randomwallpaper.Interfaces.ClickInterface;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.model.Photo;
 import com.squareup.picasso.Picasso;
@@ -105,10 +106,5 @@ public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdap
 
     public List<Photo> getList() {
         return photoList;
-    }
-
-    public interface ClickInterface {
-
-        void onClick(View view);
     }
 }

@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.udhay.randomwallpaper.Interfaces.ClickInterface;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.model.Collection;
 import com.squareup.picasso.Picasso;
@@ -18,18 +19,31 @@ import java.util.List;
 
 public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.CollectionViewHolder> {
 
+
     List<Collection> collections;
 
-    public CollectionsAdapter(List<Collection> collectionList) {
+    ClickInterface clickInterface;
+
+    public CollectionsAdapter(List<Collection> collectionList, ClickInterface clickInterface) {
         collections = collectionList;
+        this.clickInterface = clickInterface;
     }
 
     @NonNull
     @Override
     public CollectionViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.collection_view_holder, viewGroup, false);
+        final View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.collection_view_holder, viewGroup, false);
 
+        CollectionViewHolder viewHolder = new CollectionViewHolder(view);
+
+        viewHolder.collectionImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                clickInterface.onClick(view);
+            }
+        });
         return new CollectionViewHolder(view);
     }
 
@@ -71,5 +85,9 @@ public class CollectionsAdapter extends RecyclerView.Adapter<CollectionsAdapter.
             collectionCardView = view.findViewById(R.id.collection_card_view);
             collectionFrameLayout = view.findViewById(R.id.collection_frame_layout);
         }
+    }
+
+    public List<Collection> getCollections() {
+        return collections;
     }
 }

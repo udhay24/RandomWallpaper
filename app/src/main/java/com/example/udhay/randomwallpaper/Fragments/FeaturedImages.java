@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.udhay.randomwallpaper.Activity.PhotoActivity;
+import com.example.udhay.randomwallpaper.Activity.PhotoDetailActivity;
 import com.example.udhay.randomwallpaper.Adapters.FeaturedImageAdapter;
+import com.example.udhay.randomwallpaper.Interfaces.ClickInterface;
 import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.Util.GifImageView;
@@ -85,15 +86,15 @@ public class FeaturedImages extends Fragment {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
 
-                featuredImageAdapter = new FeaturedImageAdapter(response.body(), new FeaturedImageAdapter.ClickInterface() {
+                featuredImageAdapter = new FeaturedImageAdapter(response.body(), new ClickInterface() {
                     @Override
                     public void onClick(View view) {
 
                         int position = recyclerView.getChildAdapterPosition(view);
 
-                        Intent intent = new Intent(FeaturedImages.this.getContext(), PhotoActivity.class);
+                        Intent intent = new Intent(FeaturedImages.this.getContext(), PhotoDetailActivity.class);
 
-                        intent.putExtra(PhotoActivity.ID, featuredImageAdapter.getList().get(position).getId());
+                        intent.putExtra(PhotoDetailActivity.ID, featuredImageAdapter.getList().get(position).getId());
                         startActivity(intent);
                     }
                 });

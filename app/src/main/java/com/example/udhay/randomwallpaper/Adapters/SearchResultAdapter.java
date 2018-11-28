@@ -91,7 +91,7 @@ public class SearchResultAdapter {
         CollectionSearchResult searchResult;
 
         CollectionsAdapter(CollectionSearchResult result) {
-            super(result.getCollections());
+            super(result.getCollections(), null);
             searchResult = result;
         }
 
