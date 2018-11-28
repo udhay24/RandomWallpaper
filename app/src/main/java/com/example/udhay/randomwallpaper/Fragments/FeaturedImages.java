@@ -94,7 +94,6 @@ public class FeaturedImages extends Fragment {
                         Intent intent = new Intent(FeaturedImages.this.getContext(), PhotoActivity.class);
 
                         intent.putExtra(PhotoActivity.ID, featuredImageAdapter.getList().get(position).getId());
-
                         startActivity(intent);
                     }
                 });

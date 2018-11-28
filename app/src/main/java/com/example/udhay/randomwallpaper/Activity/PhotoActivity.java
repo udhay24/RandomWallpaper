@@ -156,6 +156,6 @@ public class PhotoActivity extends AppCompatActivity {
 
         Toast.makeText(PhotoActivity.this, "downloaded", Toast.LENGTH_SHORT).show();
     }
-    
-    
+
+
 }
