@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.Util.RetrofitClient;
@@ -26,13 +29,25 @@ public class PhotoActivity extends AppCompatActivity {
 
     public static final String ID = "photo_id";
     private static final int SET_WALLPAPER_ID = 24;
-    @BindView(R.id.image_view)
-    ImageView imageView;
+
     private String id;
     private Photo selectedPhoto;
 
+    @BindView(R.id.image_view)
+    ImageView imageView;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.save)
+    TextView saveTextView;
+
+    @BindView(R.id.download)
+    TextView downloadTextView;
+
+    @BindView(R.id.share)
+    TextView shareTextView;
+
     private List<Photo> relatedPhotos;
 
     @Override
@@ -50,6 +65,27 @@ public class PhotoActivity extends AppCompatActivity {
         id = getIntent().getStringExtra(ID);
 
         loadImage();
+
+        saveTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PhotoActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        downloadTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PhotoActivity.this, "downloaded", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        shareTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PhotoActivity.this, "share", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
