@@ -51,7 +51,7 @@
 
         <activity
             android:name=".Activity.CollectionDetailActivity"
-            android:parentActivityName=".Activity.MainActivity"></activity>
+            android:parentActivityName=".Activity.MainActivity" />
 
     </application>
 

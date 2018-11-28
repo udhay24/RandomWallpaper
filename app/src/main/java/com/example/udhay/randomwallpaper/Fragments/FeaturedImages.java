@@ -54,19 +54,13 @@ public class FeaturedImages extends Fragment {
         // Inflate the layout for this fragment
         View layoutView = inflater.inflate(R.layout.fragment_featured_images, container, false);
         recyclerView = layoutView.findViewById(R.id.featured_images_recycler_view);
-        gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
+
+        gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
+
         recyclerView.setLayoutManager(gridLayoutManager);
 
         progressGifView = layoutView.findViewById(R.id.preloader_1_GifView);
         errorImage = layoutView.findViewById(R.id.error_image);
-
-
-        return layoutView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
 
         displayLoading();
 
@@ -75,6 +69,12 @@ public class FeaturedImages extends Fragment {
         recyclerView.addOnScrollListener(getScrollListener());
         recyclerView.setItemAnimator(new ScaleInTopAnimator());
 
+        return layoutView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
 
@@ -180,6 +180,5 @@ public class FeaturedImages extends Fragment {
         progressGifView.setVisibility(View.VISIBLE);
         errorImage.setVisibility(View.GONE);
     }
-
 
 }

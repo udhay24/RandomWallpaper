@@ -66,20 +66,20 @@ public class CollectionsFragment extends Fragment {
         progressGifView = view.findViewById(R.id.preloader_1_GifView);
         errorImage = view.findViewById(R.id.error_image);
 
-        return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
         displayLoading();
 
         loadInitialCollections();
 
         recyclerView.addOnScrollListener(getScrollListener());
 
+        return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
 
     private EndlessScrollListener getScrollListener() {
 
