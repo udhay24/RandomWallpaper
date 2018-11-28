@@ -17,8 +17,6 @@ import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.Photo;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -48,7 +46,9 @@ public class PhotoActivity extends AppCompatActivity {
     @BindView(R.id.share)
     TextView shareTextView;
 
-    private List<Photo> relatedPhotos;
+    @BindView(R.id.description)
+    TextView description;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,21 +69,21 @@ public class PhotoActivity extends AppCompatActivity {
         saveTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PhotoActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                saveImage();
             }
         });
 
         downloadTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PhotoActivity.this, "downloaded", Toast.LENGTH_SHORT).show();
+                downloadImage();
             }
         });
 
         shareTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PhotoActivity.this, "share", Toast.LENGTH_SHORT).show();
+                shareImage();
             }
         });
 
@@ -130,6 +130,23 @@ public class PhotoActivity extends AppCompatActivity {
 
     private void setWallpaper() {
 
+        Toast.makeText(this, "Set Wallpaper", Toast.LENGTH_SHORT).show();
     }
 
+    private void saveImage() {
+
+        Toast.makeText(PhotoActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void shareImage() {
+
+        Toast.makeText(PhotoActivity.this, "share", Toast.LENGTH_SHORT).show();
+    }
+
+    private void downloadImage() {
+
+        Toast.makeText(PhotoActivity.this, "downloaded", Toast.LENGTH_SHORT).show();
+    }
+    
+    
 }
