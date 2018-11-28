@@ -101,6 +101,12 @@ public class PhotoActivity extends AppCompatActivity {
                 Picasso.get()
                         .load(selectedPhoto.getUrls().getRegular())
                         .into(imageView);
+
+                if (selectedPhoto.getDescription() != null) {
+                    description.setText(selectedPhoto.getDescription());
+                } else {
+                    description.setText("No Description");
+                }
             }
 
             @Override
@@ -113,7 +119,10 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        menu.add(Menu.NONE, SET_WALLPAPER_ID, Menu.NONE, "Set Wallpaper");
+        menu.add(Menu.NONE, SET_WALLPAPER_ID, Menu.NONE, "Set Wallpaper").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+
+
         return true;
     }
 

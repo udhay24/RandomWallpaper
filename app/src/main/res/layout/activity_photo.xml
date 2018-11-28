@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
+    android:theme="@style/BottomSheetTheme"
     tools:context=".Activity.PhotoActivity">
 
     <android.support.v7.widget.Toolbar
@@ -14,6 +15,7 @@
         android:background="#96292c2d"
         android:elevation="24dp"
         android:fitsSystemWindows="true"
+        app:title=" "
         app:titleTextColor="@color/md_white_1000" />
 
     <ImageView
