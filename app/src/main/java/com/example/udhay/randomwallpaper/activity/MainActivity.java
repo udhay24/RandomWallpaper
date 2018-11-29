@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.View;
 
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.adapters.MainViewPagerAdapter;
@@ -54,20 +55,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity_menu, menu);
 
         searchView = (SearchView) menu.findItem(R.id.search_menu_item).getActionView();
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchActivity.class)));
         searchView.setQueryHint("Search Images...");
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    menu.findItem(R.id.search_menu_item).collapseActionView();
+                }
+            }
+        });
+
         return true;
     }
 
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        toolbar.collapseActionView();
     }
 
 
