@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Activity;
+package com.example.udhay.randomwallpaper.activity;
 
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -11,9 +11,9 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
-import com.example.udhay.randomwallpaper.Adapters.MainViewPagerAdapter;
 import com.example.udhay.randomwallpaper.R;
-import com.example.udhay.randomwallpaper.Util.DrawerUtil;
+import com.example.udhay.randomwallpaper.adapters.MainViewPagerAdapter;
+import com.example.udhay.randomwallpaper.util.DrawerUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

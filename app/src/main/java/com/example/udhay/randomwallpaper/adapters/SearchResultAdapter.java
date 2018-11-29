@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Adapters;
+package com.example.udhay.randomwallpaper.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -86,7 +86,7 @@ public class SearchResultAdapter {
     }
 
 
-    class CollectionsAdapter extends com.example.udhay.randomwallpaper.Adapters.CollectionsAdapter {
+    class CollectionsAdapter extends com.example.udhay.randomwallpaper.adapters.CollectionsAdapter {
 
         CollectionSearchResult searchResult;
 

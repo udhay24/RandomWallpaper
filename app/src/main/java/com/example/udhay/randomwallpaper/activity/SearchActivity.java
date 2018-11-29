@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Activity;
+package com.example.udhay.randomwallpaper.activity;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -13,13 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.udhay.randomwallpaper.Adapters.SearchResultAdapter;
 import com.example.udhay.randomwallpaper.R;
-import com.example.udhay.randomwallpaper.Util.RetrofitClient;
+import com.example.udhay.randomwallpaper.adapters.SearchResultAdapter;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 import com.example.udhay.randomwallpaper.model.UserSearchResult;
+import com.example.udhay.randomwallpaper.util.RetrofitClient;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,6 +74,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        setIntent(intent);
         handleIntent(intent);
     }
 
@@ -112,6 +113,9 @@ public class SearchActivity extends AppCompatActivity {
 
         query = intent.getStringExtra(SearchManager.QUERY);
 
+        if (searchView != null) {
+            searchView.setQuery(query, false);
+        }
         loadUsers();
 
         loadCollection();

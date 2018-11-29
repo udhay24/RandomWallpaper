@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Fragments;
+package com.example.udhay.randomwallpaper.fragments;
 
 
 import android.content.Intent;
@@ -13,15 +13,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.udhay.randomwallpaper.Activity.CollectionDetailActivity;
-import com.example.udhay.randomwallpaper.Adapters.CollectionsAdapter;
-import com.example.udhay.randomwallpaper.Interfaces.ClickInterface;
-import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.R;
-import com.example.udhay.randomwallpaper.Util.GifImageView;
-import com.example.udhay.randomwallpaper.Util.RetrofitClient;
+import com.example.udhay.randomwallpaper.activity.CollectionDetailActivity;
+import com.example.udhay.randomwallpaper.adapters.CollectionsAdapter;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
+import com.example.udhay.randomwallpaper.interfaces.ClickInterface;
+import com.example.udhay.randomwallpaper.listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.model.Collection;
+import com.example.udhay.randomwallpaper.util.GifImageView;
+import com.example.udhay.randomwallpaper.util.RetrofitClient;
 
 import java.util.List;
 

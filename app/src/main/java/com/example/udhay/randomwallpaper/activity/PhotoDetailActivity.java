@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Activity;
+package com.example.udhay.randomwallpaper.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,9 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.udhay.randomwallpaper.R;
-import com.example.udhay.randomwallpaper.Util.RetrofitClient;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.Photo;
+import com.example.udhay.randomwallpaper.util.RetrofitClient;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;

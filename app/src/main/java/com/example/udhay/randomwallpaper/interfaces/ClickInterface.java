@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Interfaces;
+package com.example.udhay.randomwallpaper.interfaces;
 
 import android.view.View;
 

@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Util;
+package com.example.udhay.randomwallpaper.util;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

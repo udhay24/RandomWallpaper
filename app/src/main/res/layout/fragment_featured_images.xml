@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.FeaturedImages">
+    tools:context=".fragments.FeaturedImages">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/featured_images_recycler_view"
@@ -18,7 +18,7 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <com.example.udhay.randomwallpaper.Util.GifImageView
+    <com.example.udhay.randomwallpaper.util.GifImageView
         android:id="@+id/preloader-1_GifView"
         android:layout_width="20dp"
         android:layout_height="20dp"

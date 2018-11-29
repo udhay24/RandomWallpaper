@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Adapters;
+package com.example.udhay.randomwallpaper.adapters;
 
 
 import android.support.annotation.Nullable;
@@ -6,8 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.udhay.randomwallpaper.Fragments.CollectionsFragment;
-import com.example.udhay.randomwallpaper.Fragments.FeaturedImages;
+import com.example.udhay.randomwallpaper.fragments.CollectionsFragment;
+import com.example.udhay.randomwallpaper.fragments.FeaturedImages;
 
 import java.util.Arrays;
 import java.util.List;

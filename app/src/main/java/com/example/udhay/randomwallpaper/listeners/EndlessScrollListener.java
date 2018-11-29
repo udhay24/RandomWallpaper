@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Listeners;
+package com.example.udhay.randomwallpaper.listeners;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;

@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Activity;
+package com.example.udhay.randomwallpaper.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.udhay.randomwallpaper.Adapters.FeaturedImageAdapter;
-import com.example.udhay.randomwallpaper.Interfaces.ClickInterface;
-import com.example.udhay.randomwallpaper.Listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.R;
-import com.example.udhay.randomwallpaper.Util.RetrofitClient;
+import com.example.udhay.randomwallpaper.adapters.FeaturedImageAdapter;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
+import com.example.udhay.randomwallpaper.interfaces.ClickInterface;
+import com.example.udhay.randomwallpaper.listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.model.Photo;
+import com.example.udhay.randomwallpaper.util.RetrofitClient;
 
 import java.util.List;
 

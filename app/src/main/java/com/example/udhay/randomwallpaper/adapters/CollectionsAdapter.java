@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Adapters;
+package com.example.udhay.randomwallpaper.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -10,8 +10,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.udhay.randomwallpaper.Interfaces.ClickInterface;
 import com.example.udhay.randomwallpaper.R;
+import com.example.udhay.randomwallpaper.interfaces.ClickInterface;
 import com.example.udhay.randomwallpaper.model.Collection;
 import com.squareup.picasso.Picasso;
 

@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Util;
+package com.example.udhay.randomwallpaper.util;
 
 import android.content.Context;
 import android.graphics.Canvas;

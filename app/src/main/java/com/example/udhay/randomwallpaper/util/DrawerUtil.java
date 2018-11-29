@@ -1,4 +1,4 @@
-package com.example.udhay.randomwallpaper.Util;
+package com.example.udhay.randomwallpaper.util;
 
 import android.app.Activity;
 import android.support.v7.widget.Toolbar;
