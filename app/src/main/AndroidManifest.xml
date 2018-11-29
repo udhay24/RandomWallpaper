@@ -67,6 +67,11 @@
             android:name=".activity.CollectionDetailActivity"
             android:parentActivityName=".activity.MainActivity" />
 
+        <provider
+            android:name=".contentprovider.RecentSearchContentProvider"
+            android:authorities="com.example.udhay.randomwallpaper.contentprovider.RecentSearchContentProvider"
+            android:exported="false" />
+
     </application>
 
 </manifest>

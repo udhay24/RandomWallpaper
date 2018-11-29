@@ -3,6 +3,7 @@ package com.example.udhay.randomwallpaper.activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.adapters.SearchResultAdapter;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
+import com.example.udhay.randomwallpaper.contentprovider.RecentSearchContentProvider;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 import com.example.udhay.randomwallpaper.model.UserSearchResult;
@@ -112,6 +114,11 @@ public class SearchActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
 
         query = intent.getStringExtra(SearchManager.QUERY);
+
+        SearchRecentSuggestions searchRecentSuggestions = new SearchRecentSuggestions(this
+                , RecentSearchContentProvider.AUTHORITY, RecentSearchContentProvider.MODE);
+
+        searchRecentSuggestions.saveRecentQuery(query, null);
 
         if (searchView != null) {
             searchView.setQuery(query, false);
