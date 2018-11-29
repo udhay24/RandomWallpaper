@@ -24,17 +24,18 @@ import com.example.udhay.randomwallpaper.util.RetrofitClient;
 
 import java.util.List;
 
+import butterknife.BindView;
 import jp.wasabeef.recyclerview.animators.ScaleInTopAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FeaturedImages extends Fragment {
+public class WallpapersFragment extends Fragment {
 
     public static final String FRAGMENT_TITLE = "Featured";
 
+    @BindView(R.id.featured_images_recycler_view)
     RecyclerView recyclerView;
-
     GifImageView progressGifView;
     ImageView errorImage;
 
@@ -43,7 +44,7 @@ public class FeaturedImages extends Fragment {
 
     UnSplashApi unSplashApi;
 
-    public FeaturedImages() {
+    public WallpapersFragment() {
         // Required empty public constructor
     }
 
@@ -92,7 +93,7 @@ public class FeaturedImages extends Fragment {
 
                         int position = recyclerView.getChildAdapterPosition(view);
 
-                        Intent intent = new Intent(FeaturedImages.this.getContext(), PhotoDetailActivity.class);
+                        Intent intent = new Intent(WallpapersFragment.this.getContext(), PhotoDetailActivity.class);
 
                         intent.putExtra(PhotoDetailActivity.ID, featuredImageAdapter.getList().get(position).getId());
                         startActivity(intent);
@@ -105,7 +106,7 @@ public class FeaturedImages extends Fragment {
             public void onFailure(Call<List<Photo>> call, Throwable t) {
 
                 displayError();
-                Toast.makeText(FeaturedImages.this.getContext(), "Unable to load Images", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WallpapersFragment.this.getContext(), "Unable to load Images", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -137,7 +138,7 @@ public class FeaturedImages extends Fragment {
                         } else {
 
                             displayError();
-                            Toast.makeText(FeaturedImages.this.getContext(), "Error loading images", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WallpapersFragment.this.getContext(), "Error loading images", Toast.LENGTH_SHORT).show();
                             load = false;
                         }
                     }
@@ -146,7 +147,7 @@ public class FeaturedImages extends Fragment {
                     public void onFailure(Call<List<Photo>> call, Throwable t) {
 
                         displayError();
-                        Toast.makeText(FeaturedImages.this.getContext(), "Unable to load images", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WallpapersFragment.this.getContext(), "Unable to load images", Toast.LENGTH_SHORT).show();
                         load = false;
 
                     }
