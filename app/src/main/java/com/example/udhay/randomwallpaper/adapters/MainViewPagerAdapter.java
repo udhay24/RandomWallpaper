@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
-    List<String> fragmentTitle = Arrays.asList(WallpapersFragment.FRAGMENT_TITLE, CollectionsFragment.FRAGMENT_TITLE);
+    List<String> fragmentTitle = Arrays.asList(WallpapersFragment.FRAGMENT_TAB_TITLE, CollectionsFragment.FRAGMENT_TITLE);
 
     List<? extends Fragment> fragments = Arrays.asList(new WallpapersFragment(), new CollectionsFragment());
 

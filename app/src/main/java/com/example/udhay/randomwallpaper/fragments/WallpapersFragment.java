@@ -25,6 +25,7 @@ import com.example.udhay.randomwallpaper.util.RetrofitClient;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import jp.wasabeef.recyclerview.animators.ScaleInTopAnimator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,12 +33,31 @@ import retrofit2.Response;
 
 public class WallpapersFragment extends Fragment {
 
-    public static final String FRAGMENT_TITLE = "Featured";
+    public static final String FRAGMENT_TAB_TITLE = "NEW";
+    private static final String FRAGMENT_ACTION = "fragment_action";
+    private static final String FRAGMENT_ACTION_PARAMETER = "fragment_action_parameter";
+    @BindView(R.id.preloader_1_GifView)
+    GifImageView progressGifView;
+    @BindView(R.id.error_image)
+    ImageView errorImage;
 
     @BindView(R.id.featured_images_recycler_view)
     RecyclerView recyclerView;
-    GifImageView progressGifView;
-    ImageView errorImage;
+    private String actionParameter;
+
+    public static WallpapersFragment getWallPaperSFragment(WALLPAPERS_FRAGMENT_ACTIONS fragmentActions, String action) {
+
+        WallpapersFragment fragment = new WallpapersFragment();
+
+        Bundle bundle = new Bundle();
+
+        bundle.putString(FRAGMENT_ACTION, fragmentActions.toString());
+        bundle.putString(FRAGMENT_ACTION_PARAMETER, action);
+
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
 
     private FeaturedImageAdapter featuredImageAdapter;
     private GridLayoutManager gridLayoutManager;
@@ -53,15 +73,14 @@ public class WallpapersFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View layoutView = inflater.inflate(R.layout.fragment_featured_images, container, false);
-        recyclerView = layoutView.findViewById(R.id.featured_images_recycler_view);
+        View layoutView = inflater.inflate(R.layout.fragment_wallpaper, container, false);
+
+        ButterKnife.bind(this, layoutView);
+
 
         gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
 
         recyclerView.setLayoutManager(gridLayoutManager);
-
-        progressGifView = layoutView.findViewById(R.id.preloader_1_GifView);
-        errorImage = layoutView.findViewById(R.id.error_image);
 
         displayLoading();
 
@@ -71,6 +90,10 @@ public class WallpapersFragment extends Fragment {
         recyclerView.setItemAnimator(new ScaleInTopAnimator());
 
         return layoutView;
+    }
+
+    private void displayFeaturedImages() {
+
     }
 
     @Override
@@ -180,6 +203,20 @@ public class WallpapersFragment extends Fragment {
         recyclerView.setVisibility(View.GONE);
         progressGifView.setVisibility(View.VISIBLE);
         errorImage.setVisibility(View.GONE);
+    }
+
+    private void displaySearchImages() {
+
+    }
+
+    private void displayCollectionImages() {
+
+    }
+
+    //Enum for the actions performed by this fragment
+    public enum WALLPAPERS_FRAGMENT_ACTIONS {
+
+        NEW_WALLPAPER_DISPLAY, SEARCH_WALLPAPER_DISPLAY, COLLECTION_WALLPAPER_DISPLAY
     }
 
 }
