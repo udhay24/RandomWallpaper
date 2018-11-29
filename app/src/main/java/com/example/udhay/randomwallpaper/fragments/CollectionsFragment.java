@@ -3,7 +3,6 @@ package com.example.udhay.randomwallpaper.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,7 @@ import android.widget.Toast;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.activity.CollectionDetailActivity;
 import com.example.udhay.randomwallpaper.adapters.CollectionsAdapter;
+import com.example.udhay.randomwallpaper.adapters.FeaturedImageAdapter;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.interfaces.ClickInterface;
 import com.example.udhay.randomwallpaper.listeners.EndlessScrollListener;
@@ -25,6 +25,8 @@ import com.example.udhay.randomwallpaper.util.RetrofitClient;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,24 +36,43 @@ import retrofit2.Response;
  */
 public class CollectionsFragment extends Fragment {
 
-    public static final String FRAGMENT_TITLE = "Collections";
+    public static final String FRAGMENT_TAB_TITLE = "Collections";
+    private static final String FRAGMENT_ACTION = "fragment_action";
+    private static final String FRAGMENT_ACTION_PARAMETER = "fragment_action_parameter";
+    private static EndlessScrollListener endlessScrollListener;
+    private static Callback<List<Collection>> retrofitResultCallBack;
+    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    GridLayoutManager gridLayoutManager;
-    CollectionsAdapter collectionsAdapter;
 
-    UnSplashApi unSplashApi;
-
+    @BindView(R.id.preloader_1_GifView)
     GifImageView progressGifView;
+
+    @BindView(R.id.error_image)
     ImageView errorImage;
+    CollectionsAdapter collectionsAdapter;
+    private String actionParameter;
+    private FeaturedImageAdapter featuredImageAdapter;
+    private GridLayoutManager gridLayoutManager;
+    private UnSplashApi unSplashApi;
+    private ClickInterface collectionClickInterface;
+
+    public static CollectionsFragment getCollectionSFragment(COLLECTIONS_FRAGMENT_ACTIONS fragmentActions, String action) {
+
+        CollectionsFragment fragment = new CollectionsFragment();
+
+        Bundle bundle = new Bundle();
+
+        bundle.putString(FRAGMENT_ACTION, fragmentActions.toString());
+        bundle.putString(FRAGMENT_ACTION_PARAMETER, action);
+
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
 
     public CollectionsFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -59,21 +80,85 @@ public class CollectionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_collections, container, false);
-        recyclerView = view.findViewById(R.id.collections_recycler_view);
+
+        ButterKnife.bind(this, view);
+
         gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        progressGifView = view.findViewById(R.id.preloader_1_GifView);
-        errorImage = view.findViewById(R.id.error_image);
+        unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
 
+        collectionClickInterface = new ClickInterface() {
+            @Override
+            public void onClick(View view) {
+
+                int position = recyclerView.getChildAdapterPosition(view);
+                int id = collectionsAdapter.getCollections().get(position).getId();
+                String title = collectionsAdapter.getCollections().get(position).getTitle();
+
+                Intent intent = new Intent(CollectionsFragment.this.getContext(), CollectionDetailActivity.class);
+                intent.putExtra(CollectionDetailActivity.COLLECTION_ID, id);
+                intent.putExtra(CollectionDetailActivity.COLLECTION_TITLE, title);
+                startActivity(intent);
+
+            }
+        };
+
+        retrofitResultCallBack = new Callback<List<Collection>>() {
+
+            @Override
+            public void onResponse(Call<List<Collection>> call, Response<List<Collection>> response) {
+                collectionsAdapter = new CollectionsAdapter(response.body(), collectionClickInterface);
+                recyclerView.setAdapter(collectionsAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Collection>> call, Throwable t) {
+
+                displayError();
+                Toast.makeText(CollectionsFragment.this.getContext(), "Unable to load collections", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        endlessScrollListener = getScrollListener();
         displayLoading();
 
-        loadInitialCollections();
+        if (this.getArguments() != null) {
 
-        recyclerView.addOnScrollListener(getScrollListener());
+            String action = this.getArguments().getString(FRAGMENT_ACTION);
+
+            if (action == null) action = "";
+
+            if (action.equals(COLLECTIONS_FRAGMENT_ACTIONS.COLLECTION_WALLPAPER_DISPLAY.name())) {
+
+                //displayCollectionImages();
+
+            } else if (action.equals(COLLECTIONS_FRAGMENT_ACTIONS.NEW_WALLPAPER_DISPLAY.name())) {
+
+                // displayFeaturedImages();
+
+            } else if (action.equals(COLLECTIONS_FRAGMENT_ACTIONS.SEARCH_WALLPAPER_DISPLAY.name())) {
+
+                // displaySearchImages();
+
+            }
+
+        } else {
+            Toast.makeText(CollectionsFragment.this.getContext(), "this is null", Toast.LENGTH_SHORT).show();
+        }
+
 
         return view;
     }
+
+    private void displayNewCollection() {
+
+        unSplashApi.getCollections(1, 10).enqueue(retrofitResultCallBack);
+
+        displayCollections();
+    }
+
+
 
     @Override
     public void onStart() {
@@ -91,7 +176,6 @@ public class CollectionsFragment extends Fragment {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
 
-                unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
 
                 unSplashApi.getCollections(page, 30).enqueue(new Callback<List<Collection>>() {
                     @Override
@@ -123,43 +207,6 @@ public class CollectionsFragment extends Fragment {
         return endlessScrollListener;
     }
 
-    private void loadInitialCollections() {
-
-        unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
-
-        unSplashApi.getCollections(1, 10).enqueue(new Callback<List<Collection>>() {
-
-            @Override
-            public void onResponse(Call<List<Collection>> call, Response<List<Collection>> response) {
-                collectionsAdapter = new CollectionsAdapter(response.body(), new ClickInterface() {
-                    @Override
-                    public void onClick(View view) {
-
-                        int position = recyclerView.getChildAdapterPosition(view);
-                        int id = collectionsAdapter.getCollections().get(position).getId();
-                        String title = collectionsAdapter.getCollections().get(position).getTitle();
-
-                        Intent intent = new Intent(CollectionsFragment.this.getContext(), CollectionDetailActivity.class);
-                        intent.putExtra(CollectionDetailActivity.COLLECTION_ID, id);
-                        intent.putExtra(CollectionDetailActivity.COLLECTION_TITLE, title);
-                        startActivity(intent);
-
-                    }
-                });
-                recyclerView.setAdapter(collectionsAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<List<Collection>> call, Throwable t) {
-
-                displayError();
-                Toast.makeText(CollectionsFragment.this.getContext(), "Unable to load collections", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        displayCollections();
-    }
-
     private void displayError() {
 
         recyclerView.setVisibility(View.GONE);
@@ -184,4 +231,9 @@ public class CollectionsFragment extends Fragment {
     }
 
 
+    //Enum for the actions performed by this fragment
+    public enum COLLECTIONS_FRAGMENT_ACTIONS {
+
+        NEW_WALLPAPER_DISPLAY, SEARCH_WALLPAPER_DISPLAY, COLLECTION_WALLPAPER_DISPLAY
+    }
 }

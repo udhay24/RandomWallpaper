@@ -157,11 +157,6 @@ public class WallpapersFragment extends Fragment {
         displayImages();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
 
     private EndlessScrollListener getScrollListener() {
 
