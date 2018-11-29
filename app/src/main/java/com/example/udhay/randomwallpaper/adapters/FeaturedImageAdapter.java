@@ -68,7 +68,11 @@ public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdap
 
     @Override
     public int getItemCount() {
-        return photoList.size();
+        if (photoList != null) {
+            return photoList.size();
+        } else {
+            return 0;
+        }
     }
 
 
@@ -93,10 +97,13 @@ public class FeaturedImageAdapter extends RecyclerView.Adapter<FeaturedImageAdap
 
     public void addPhotoList(List<Photo> photos){
 
-        int previousCount = this.getItemCount();
-        photoList.addAll(photos);
-        this.notifyItemRangeInserted(previousCount , photos.size());
-
+        if (photoList != null) {
+            int previousCount = this.getItemCount();
+            photoList.addAll(photos);
+            this.notifyItemRangeInserted(previousCount, photos.size());
+        } else {
+            photoList = photos;
+        }
     }
 
     public void swapData(List<Photo> photos){
