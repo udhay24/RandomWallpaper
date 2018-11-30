@@ -20,7 +20,7 @@ public class ExampleUnitTest {
     @Test
     public void checkEnum() {
 
-        assertEquals(WallpapersFragment.WALLPAPERS_FRAGMENT_ACTIONS.NEW_WALLPAPER_DISPLAY.toString(), "NEW_WALLPAPER_DISPLAY");
+        assertEquals(WallpapersFragment.WALLPAPERS_FRAGMENT_ACTIONS.NEW_WALLPAPER_DISPLAY.toString(), "NEW_COLLECTIONS_DISPLAY");
 
     }
 }

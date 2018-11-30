@@ -18,7 +18,7 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
     List<? extends Fragment> fragments = Arrays.asList(WallpapersFragment.getWallPaperSFragment(
             WallpapersFragment.WALLPAPERS_FRAGMENT_ACTIONS.NEW_WALLPAPER_DISPLAY, null
-    ), new CollectionsFragment());
+    ), CollectionsFragment.getCollectionSFragment(CollectionsFragment.COLLECTIONS_FRAGMENT_ACTIONS.NEW_COLLECTIONS_DISPLAY, null));
 
     public MainViewPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);

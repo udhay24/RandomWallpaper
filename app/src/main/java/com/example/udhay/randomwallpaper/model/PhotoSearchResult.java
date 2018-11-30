@@ -9,7 +9,7 @@ public class PhotoSearchResult {
     @SerializedName("total")
     int total;
     @SerializedName("total_pages")
-    int totolaPages;
+    int totalPages;
     @SerializedName("results")
     List<SearchPhoto> searchPhotos;
 
@@ -21,12 +21,12 @@ public class PhotoSearchResult {
         this.total = total;
     }
 
-    public int getTotolaPages() {
-        return totolaPages;
+    public int getTotalPages() {
+        return totalPages;
     }
 
-    public void setTotolaPages(int totolaPages) {
-        this.totolaPages = totolaPages;
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
     }
 
     public List<SearchPhoto> getSearchPhotos() {

@@ -57,7 +57,7 @@ public class WallpapersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (savedInstanceState != null)
+        if (getArguments() != null)
             actionParameter = this.getArguments().getString(FRAGMENT_ACTION_PARAMETER);
 
         // Inflate the layout for this fragment
@@ -151,12 +151,6 @@ public class WallpapersFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private void displaySearchImages() {
-
-        unSplashApi.searchCollection(actionParameter, 1, 10);
-        displayImages();
-    }
-
 
     private EndlessScrollListener getScrollListener() {
 
@@ -226,17 +220,99 @@ public class WallpapersFragment extends Fragment {
 
     private void displayCollectionImages() {
 
-        unSplashApi.getCollectionById(Integer.getInteger(actionParameter), 1, 10);
+        unSplashApi.getCollectionById(Integer.getInteger(actionParameter), 1, 10).enqueue(retrofitResultCallBack);
         displayImages();
+        recyclerView.addOnScrollListener(new EndlessScrollListener(gridLayoutManager) {
+
+            private boolean load = true;
+
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+
+                unSplashApi.getCollectionById(Integer.getInteger(actionParameter), page, 20).enqueue(new Callback<List<Photo>>() {
+                    @Override
+                    public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+
+                        if (response.body() != null && response.errorBody() == null) {
+
+                            List<Photo> photos = response.body();
+                            featuredImageAdapter.addPhotoList(photos);
+                            load = true;
+
+                        } else {
+
+                            displayError();
+                            Toast.makeText(WallpapersFragment.this.getContext(), "Error loading images", Toast.LENGTH_SHORT).show();
+                            load = false;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Photo>> call, Throwable t) {
+
+                        displayError();
+                        Toast.makeText(WallpapersFragment.this.getContext(), "Unable to load images", Toast.LENGTH_SHORT).show();
+                        load = false;
+
+                    }
+                });
+
+                return load;
+            }
+        });
     }
 
     private void displayFeaturedImages() {
 
 
         unSplashApi.getPhotos(1, 10).enqueue(retrofitResultCallBack);
+        recyclerView.addOnScrollListener(new EndlessScrollListener(gridLayoutManager) {
+
+            private boolean load = true;
+
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+
+                unSplashApi.getPhotos(page, 20).enqueue(new Callback<List<Photo>>() {
+                    @Override
+                    public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+
+                        if (response.body() != null && response.errorBody() == null) {
+
+                            List<Photo> photos = response.body();
+                            featuredImageAdapter.addPhotoList(photos);
+                            load = true;
+
+                        } else {
+
+                            displayError();
+                            Toast.makeText(WallpapersFragment.this.getContext(), "Error loading images", Toast.LENGTH_SHORT).show();
+                            load = false;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Photo>> call, Throwable t) {
+
+                        displayError();
+                        Toast.makeText(WallpapersFragment.this.getContext(), "Unable to load images", Toast.LENGTH_SHORT).show();
+                        load = false;
+
+                    }
+                });
+
+                return load;
+            }
+        });
+
         displayImages();
 
     }
+
+    private void displaySearchImages() {
+
+    }
+
     //Enum for the actions performed by this fragment
     public enum WALLPAPERS_FRAGMENT_ACTIONS {
 
