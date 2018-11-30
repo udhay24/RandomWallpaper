@@ -313,6 +313,7 @@ public class WallpapersFragment extends Fragment {
 
     }
 
+    //TODO SET UP THE FEATURE FOR SEARCH WALLPAPER DISPLAY
     //Enum for the actions performed by this fragment
     public enum WALLPAPERS_FRAGMENT_ACTIONS {
 

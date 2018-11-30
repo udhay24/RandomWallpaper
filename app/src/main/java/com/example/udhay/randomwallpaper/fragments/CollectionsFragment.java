@@ -221,6 +221,7 @@ public class CollectionsFragment extends Fragment {
         errorImage.setVisibility(View.GONE);
     }
 
+//TODO setup the feature for SEARCH_COLLECTION_DISPLAY
 
     //Enum for the actions performed by this fragment
     public enum COLLECTIONS_FRAGMENT_ACTIONS {
