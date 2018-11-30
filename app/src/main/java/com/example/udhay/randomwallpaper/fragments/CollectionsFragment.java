@@ -136,12 +136,7 @@ public class CollectionsFragment extends Fragment {
 
                 displayNewCollection();
 
-            } else if (action.equals(COLLECTIONS_FRAGMENT_ACTIONS.SEARCH_COLLECTIONS_DISPLAY.name())) {
-
-                displaySearchCollections();
-
             }
-
         } else {
             Toast.makeText(CollectionsFragment.this.getContext(), "this is null", Toast.LENGTH_SHORT).show();
         }
@@ -226,6 +221,6 @@ public class CollectionsFragment extends Fragment {
     //Enum for the actions performed by this fragment
     public enum COLLECTIONS_FRAGMENT_ACTIONS {
 
-        NEW_COLLECTIONS_DISPLAY, SEARCH_COLLECTIONS_DISPLAY
+        NEW_COLLECTIONS_DISPLAY
     }
 }

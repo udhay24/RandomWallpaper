@@ -33,8 +33,10 @@ import retrofit2.Response;
 public class WallpapersFragment extends Fragment {
 
     public static final String FRAGMENT_TAB_TITLE = "NEW";
+    public static final String FRAGMENT_TAG = "wallpaper_fragment";
+
     private static final String FRAGMENT_ACTION = "fragment_action";
-    private static final String FRAGMENT_ACTION_PARAMETER = "fragment_action_parameter";
+    private static final String FRAGMENT_ID_PARAMETER = "fragment_action_parameter";
 
     private static EndlessScrollListener endlessScrollListener;
 
@@ -47,18 +49,32 @@ public class WallpapersFragment extends Fragment {
     @BindView(R.id.featured_images_recycler_view)
     RecyclerView recyclerView;
 
-    private String actionParameter;
+    private int actionParameter;
     private static Callback<List<Photo>> retrofitResultCallBack;
     private FeaturedImageAdapter featuredImageAdapter;
     private GridLayoutManager gridLayoutManager;
     private UnSplashApi unSplashApi;
     private ClickInterface wallpaperClickInterface;
 
+    public static WallpapersFragment getWallPaperSFragment(WALLPAPERS_FRAGMENT_ACTIONS fragmentActions, int id) {
+
+        WallpapersFragment fragment = new WallpapersFragment();
+
+        Bundle bundle = new Bundle();
+
+        bundle.putString(FRAGMENT_ACTION, fragmentActions.toString());
+        bundle.putInt(FRAGMENT_ID_PARAMETER, id);
+
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (getArguments() != null)
-            actionParameter = this.getArguments().getString(FRAGMENT_ACTION_PARAMETER);
+            actionParameter = this.getArguments().getInt(FRAGMENT_ID_PARAMETER);
 
         // Inflate the layout for this fragment
         View layoutView = inflater.inflate(R.layout.fragment_wallpaper, container, false);
@@ -119,31 +135,12 @@ public class WallpapersFragment extends Fragment {
 
                 displayFeaturedImages();
 
-            } else if (action.equals(WALLPAPERS_FRAGMENT_ACTIONS.SEARCH_WALLPAPER_DISPLAY.name())) {
-
-                displaySearchImages();
-
             }
-
         } else {
             Toast.makeText(WallpapersFragment.this.getContext(), "this is null", Toast.LENGTH_SHORT).show();
         }
 
         return layoutView;
-    }
-
-    public static WallpapersFragment getWallPaperSFragment(WALLPAPERS_FRAGMENT_ACTIONS fragmentActions, String action) {
-
-        WallpapersFragment fragment = new WallpapersFragment();
-
-        Bundle bundle = new Bundle();
-
-        bundle.putString(FRAGMENT_ACTION, fragmentActions.toString());
-        bundle.putString(FRAGMENT_ACTION_PARAMETER, action);
-
-        fragment.setArguments(bundle);
-
-        return fragment;
     }
 
 
@@ -219,8 +216,7 @@ public class WallpapersFragment extends Fragment {
     }
 
     private void displayCollectionImages() {
-
-        unSplashApi.getCollectionById(Integer.getInteger(actionParameter), 1, 10).enqueue(retrofitResultCallBack);
+        unSplashApi.getCollectionById(actionParameter, 1, 10).enqueue(retrofitResultCallBack);
         displayImages();
         recyclerView.addOnScrollListener(new EndlessScrollListener(gridLayoutManager) {
 
@@ -229,7 +225,7 @@ public class WallpapersFragment extends Fragment {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
 
-                unSplashApi.getCollectionById(Integer.getInteger(actionParameter), page, 20).enqueue(new Callback<List<Photo>>() {
+                unSplashApi.getCollectionById(actionParameter, page, 20).enqueue(new Callback<List<Photo>>() {
                     @Override
                     public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
 
@@ -317,6 +313,6 @@ public class WallpapersFragment extends Fragment {
     //Enum for the actions performed by this fragment
     public enum WALLPAPERS_FRAGMENT_ACTIONS {
 
-        NEW_WALLPAPER_DISPLAY, SEARCH_WALLPAPER_DISPLAY, COLLECTION_WALLPAPER_DISPLAY
+        NEW_WALLPAPER_DISPLAY, COLLECTION_WALLPAPER_DISPLAY
     }
 }
