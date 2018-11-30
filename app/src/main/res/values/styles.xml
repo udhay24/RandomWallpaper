@@ -19,6 +19,7 @@
 
         <item name="actionOverflowButtonStyle">@style/DotsDarkTheme</item>
         <item name="android:actionMenuTextColor">@color/md_white_1000</item>
+        <item name="android:textColor">@color/md_white_1000</item>
 
     </style>
 

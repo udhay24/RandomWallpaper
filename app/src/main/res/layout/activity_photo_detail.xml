@@ -25,7 +25,7 @@
         android:fitsSystemWindows="true"
         android:scaleType="centerCrop" />
 
-    <include layout="@layout/photo_bottom_sheet" />
+    <include layout="@layout/wallpaper_bottom_sheet" />
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -22,9 +22,11 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class PhotoDetailActivity extends AppCompatActivity {
 
@@ -36,6 +38,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.photo_image_view)
     ImageView photoImageView;
+
     @BindView(R.id.bottom_sheet)
     ConstraintLayout bottomSheetLayout;
 
@@ -43,18 +46,29 @@ public class PhotoDetailActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     @BindView(R.id.save)
-    TextView saveTextView;
+    ImageView saveButton;
 
     @BindView(R.id.download)
-    TextView downloadTextView;
+    ImageView downloadButton;
 
     @BindView(R.id.share)
     TextView shareTextView;
 
     @BindView(R.id.description)
     TextView description;
+
     @BindView(R.id.bottom_sheet_arrow)
     ImageView arrowImageView;
+
+    @BindView(R.id.profile_image)
+    CircleImageView profileImageView;
+
+    @BindView(R.id.views)
+    TextView viewsTextView;
+
+    @BindView(R.id.downloads_text_view)
+    TextView downloadsTextView;
+
     private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
@@ -72,14 +86,14 @@ public class PhotoDetailActivity extends AppCompatActivity {
 
         loadImage();
 
-        saveTextView.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveImage();
             }
         });
 
-        downloadTextView.setOnClickListener(new View.OnClickListener() {
+        downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 downloadImage();
@@ -90,6 +104,13 @@ public class PhotoDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 shareImage();
+            }
+        });
+
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProfile();
             }
         });
 
@@ -149,6 +170,14 @@ public class PhotoDetailActivity extends AppCompatActivity {
                 } else {
                     description.setText("No Description");
                 }
+
+                Picasso.get()
+                        .load(selectedPhoto.getUser().getProfileImage().getMedium())
+                        .into(profileImageView);
+
+                Timber.v(selectedPhoto.getViews().toString());
+                viewsTextView.setText(selectedPhoto.getViews().toString());
+                downloadsTextView.setText(selectedPhoto.getDownloads().toString());
             }
 
             @Override
@@ -197,6 +226,11 @@ public class PhotoDetailActivity extends AppCompatActivity {
         Toast.makeText(PhotoDetailActivity.this, "downloaded", Toast.LENGTH_SHORT).show();
     }
 
+    private void showProfile() {
+
+        Toast.makeText(this, "show profile", Toast.LENGTH_SHORT).show();
+    }
+    
     public void toggleBottomSheet() {
         if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
