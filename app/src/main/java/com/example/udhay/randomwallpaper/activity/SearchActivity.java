@@ -20,6 +20,7 @@ import com.example.udhay.randomwallpaper.adapters.SearchResultAdapter;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.contentprovider.RecentSearchContentProvider;
 import com.example.udhay.randomwallpaper.interfaces.ClickInterface;
+import com.example.udhay.randomwallpaper.listeners.EndlessScrollListener;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 import com.example.udhay.randomwallpaper.model.UserSearchResult;
@@ -141,12 +142,13 @@ public class SearchActivity extends AppCompatActivity {
 
     private void loadWallpaper() {
 
+        GridLayoutManager wallpaperGridLayoutManager = new GridLayoutManager(SearchActivity.this, 2);
+
+        wallpaperRecyclerView.setLayoutManager(wallpaperGridLayoutManager);
 
         unSplashApi.searchPhotos(query, 1, 30, null, null).enqueue(new Callback<PhotoSearchResult>() {
             @Override
             public void onResponse(Call<PhotoSearchResult> call, final Response<PhotoSearchResult> response) {
-
-                wallpaperRecyclerView.setLayoutManager(new GridLayoutManager(SearchActivity.this, 2));
 
                 wallpaperRecyclerView.setAdapter(new SearchResultAdapter().getWallpaperAdapter(response.body(), new ClickInterface() {
                     @Override
@@ -168,16 +170,36 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-//        wallpaperRecyclerView.addOnScrollListener(new EndlessScrollListener(wallpaperRecyclerView.getLayoutManager()) {
-//            @Override
-//            public boolean onLoadMore(int page, int totalItemsCount) {
-//
-//                unSplashApi.searchPhotos(query , page , 30 , null , null);
-//
-//                return false;
-//            }
-//        });
-//
+
+        wallpaperRecyclerView.addOnScrollListener(new EndlessScrollListener(wallpaperGridLayoutManager) {
+
+            private boolean load = false;
+
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+
+                unSplashApi.searchPhotos(query, page, 30, null, null).enqueue(new Callback<PhotoSearchResult>() {
+                    @Override
+                    public void onResponse(Call<PhotoSearchResult> call, Response<PhotoSearchResult> response) {
+
+                        if (response.body() != null & response.errorBody() == null) {
+                            ((SearchResultAdapter.WallpaperAdapter) wallpaperRecyclerView.getAdapter()).addPhotos(response.body().getSearchPhotos());
+                            load = true;
+                        } else {
+                            load = false;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PhotoSearchResult> call, Throwable t) {
+                        load = false;
+                    }
+                });
+
+                return load;
+            }
+        });
+
     }
 
     private void loadCollection() {

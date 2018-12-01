@@ -32,14 +32,15 @@ public class SearchResultAdapter {
         return new UserAdapter(result);
     }
 
-    class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.PhotoViewHolder> {
 
-        private PhotoSearchResult photoSearchResult;
+    public class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.PhotoViewHolder> {
+
+        private List<PhotoSearchResult.SearchPhoto> searchPhotos;
         private ClickInterface clickInterface;
 
-        public WallpaperAdapter(PhotoSearchResult list, ClickInterface clickInterface) {
+        public WallpaperAdapter(PhotoSearchResult photoSearchResult, ClickInterface clickInterface) {
 
-            photoSearchResult = list;
+            this.searchPhotos = photoSearchResult.getSearchPhotos();
             this.clickInterface = clickInterface;
 
         }
@@ -65,7 +66,7 @@ public class SearchResultAdapter {
         public void onBindViewHolder(@NonNull PhotoViewHolder photoViewHolder, int i) {
 
             Picasso.get()
-                    .load(photoSearchResult.getSearchPhotos().get(i).getUrls().getRegular())
+                    .load(searchPhotos.get(i).getUrls().getRegular())
                     .placeholder(R.drawable.placeholder)
                     .fit()
                     .centerCrop()
@@ -76,7 +77,7 @@ public class SearchResultAdapter {
         @Override
         public int getItemCount() {
 
-            return photoSearchResult.getSearchPhotos().size();
+            return searchPhotos.size();
         }
 
         class PhotoViewHolder extends RecyclerView.ViewHolder {
@@ -89,10 +90,17 @@ public class SearchResultAdapter {
             }
         }
 
+        public void addPhotos(List<PhotoSearchResult.SearchPhoto> photos) {
+
+            int lastPosition = searchPhotos.size();
+            searchPhotos.addAll(lastPosition, photos);
+            notifyItemRangeInserted(lastPosition, photos.size());
+        }
+
     }
 
 
-    class CollectionsAdapter extends com.example.udhay.randomwallpaper.adapters.CollectionsAdapter {
+    public class CollectionsAdapter extends com.example.udhay.randomwallpaper.adapters.CollectionsAdapter {
 
         CollectionSearchResult searchResult;
 
@@ -135,7 +143,7 @@ public class SearchResultAdapter {
     }
 
 
-    class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+    public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
         List<UserSearchResult.SearchUser> userList;
 
