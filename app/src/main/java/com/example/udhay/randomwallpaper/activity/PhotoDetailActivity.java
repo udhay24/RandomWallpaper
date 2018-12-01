@@ -77,6 +77,9 @@ public class PhotoDetailActivity extends AppCompatActivity {
     @BindView(R.id.downloads_text_view)
     TextView downloadsTextView;
 
+    @BindView(R.id.wallpaper_loading)
+    LottieAnimationView wallpaperAnimation;
+
     private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
@@ -89,6 +92,10 @@ public class PhotoDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
+
+        photoImageView.setVisibility(View.INVISIBLE);
+        wallpaperAnimation.setVisibility(View.VISIBLE);
+        wallpaperAnimation.playAnimation();
 
         arrowImageView.addValueCallback(
                 new KeyPath("**"),
@@ -208,9 +215,13 @@ public class PhotoDetailActivity extends AppCompatActivity {
                         .load(selectedPhoto.getUser().getProfileImage().getMedium())
                         .into(profileImageView);
 
-                Timber.v(selectedPhoto.getViews().toString());
                 viewsTextView.setText(selectedPhoto.getViews().toString());
                 downloadsTextView.setText(selectedPhoto.getDownloads().toString());
+
+                photoImageView.setVisibility(View.VISIBLE);
+                wallpaperAnimation.pauseAnimation();
+                wallpaperAnimation.setVisibility(View.GONE);
+
             }
 
             @Override

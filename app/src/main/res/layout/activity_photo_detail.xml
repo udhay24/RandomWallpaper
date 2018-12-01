@@ -18,6 +18,13 @@
         app:title=" "
         app:titleTextColor="@color/md_white_1000" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/wallpaper_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_rawRes="@raw/bouncing_ball"
+        app:lottie_loop="true"
+        app:lottie_repeatMode="restart" />
     <ImageView
         android:id="@+id/photo_image_view"
         android:layout_width="match_parent"
