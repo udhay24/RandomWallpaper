@@ -19,8 +19,8 @@ import java.util.List;
 
 public class SearchResultAdapter {
 
-    public WallpaperAdapter getWallpaperAdapter(PhotoSearchResult result) {
-        return new WallpaperAdapter(result);
+    public WallpaperAdapter getWallpaperAdapter(PhotoSearchResult result, ClickInterface clickInterface) {
+        return new WallpaperAdapter(result, clickInterface);
     }
 
 
@@ -35,10 +35,12 @@ public class SearchResultAdapter {
     class WallpaperAdapter extends RecyclerView.Adapter<WallpaperAdapter.PhotoViewHolder> {
 
         private PhotoSearchResult photoSearchResult;
+        private ClickInterface clickInterface;
 
-        public WallpaperAdapter(PhotoSearchResult list) {
+        public WallpaperAdapter(PhotoSearchResult list, ClickInterface clickInterface) {
 
             photoSearchResult = list;
+            this.clickInterface = clickInterface;
 
         }
 
@@ -46,8 +48,15 @@ public class SearchResultAdapter {
         @Override
         public PhotoViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-            View view = LayoutInflater.from(viewGroup.getContext())
+            final View view = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.featured_image_view_holder, viewGroup, false);
+
+            (view.findViewById(R.id.imageView)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickInterface.onClick(view);
+                }
+            });
 
             return new PhotoViewHolder(view);
         }

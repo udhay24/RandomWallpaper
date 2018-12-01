@@ -144,11 +144,22 @@ public class SearchActivity extends AppCompatActivity {
 
         unSplashApi.searchPhotos(query, 1, 30, null, null).enqueue(new Callback<PhotoSearchResult>() {
             @Override
-            public void onResponse(Call<PhotoSearchResult> call, Response<PhotoSearchResult> response) {
+            public void onResponse(Call<PhotoSearchResult> call, final Response<PhotoSearchResult> response) {
 
                 wallpaperRecyclerView.setLayoutManager(new GridLayoutManager(SearchActivity.this, 2));
 
-                wallpaperRecyclerView.setAdapter(new SearchResultAdapter().getWallpaperAdapter(response.body()));
+                wallpaperRecyclerView.setAdapter(new SearchResultAdapter().getWallpaperAdapter(response.body(), new ClickInterface() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = wallpaperRecyclerView.getChildAdapterPosition(view);
+                        String id = response.body().getSearchPhotos().get(position).getId();
+
+                        Intent intent = new Intent(SearchActivity.this, PhotoDetailActivity.class);
+                        intent.putExtra(PhotoDetailActivity.ID, id);
+
+                        startActivity(intent);
+                    }
+                }));
             }
 
             @Override
@@ -156,6 +167,17 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
+
+//        wallpaperRecyclerView.addOnScrollListener(new EndlessScrollListener(wallpaperRecyclerView.getLayoutManager()) {
+//            @Override
+//            public boolean onLoadMore(int page, int totalItemsCount) {
+//
+//                unSplashApi.searchPhotos(query , page , 30 , null , null);
+//
+//                return false;
+//            }
+//        });
+//
     }
 
     private void loadCollection() {
