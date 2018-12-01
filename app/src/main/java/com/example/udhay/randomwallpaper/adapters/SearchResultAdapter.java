@@ -9,14 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.udhay.randomwallpaper.R;
+import com.example.udhay.randomwallpaper.interfaces.ClickInterface;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 import com.example.udhay.randomwallpaper.model.UserSearchResult;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import timber.log.Timber;
 
 public class SearchResultAdapter {
 
@@ -25,8 +24,8 @@ public class SearchResultAdapter {
     }
 
 
-    public CollectionsAdapter getCollectionsAdapter(CollectionSearchResult result) {
-        return new CollectionsAdapter(result);
+    public CollectionsAdapter getCollectionsAdapter(CollectionSearchResult result, ClickInterface clickInterface) {
+        return new CollectionsAdapter(result, clickInterface);
     }
 
     public UserAdapter getUserAdapter(UserSearchResult result) {
@@ -68,8 +67,6 @@ public class SearchResultAdapter {
         @Override
         public int getItemCount() {
 
-            Timber.v("response count" + photoSearchResult.getSearchPhotos().size());
-
             return photoSearchResult.getSearchPhotos().size();
         }
 
@@ -90,8 +87,8 @@ public class SearchResultAdapter {
 
         CollectionSearchResult searchResult;
 
-        CollectionsAdapter(CollectionSearchResult result) {
-            super(result.getCollections(), null);
+        CollectionsAdapter(CollectionSearchResult result, ClickInterface clickInterface) {
+            super(result.getCollections(), clickInterface);
             searchResult = result;
         }
 

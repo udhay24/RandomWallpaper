@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 
 public abstract class EndlessScrollListener extends RecyclerView.OnScrollListener {
 
-    // The minimum number of items to have below your current scroll position
+    // The minimum number of items to have below your current arrow position
     // before loading more.
     private int visibleThreshold = 5;
     // The current offset index of data you have loaded

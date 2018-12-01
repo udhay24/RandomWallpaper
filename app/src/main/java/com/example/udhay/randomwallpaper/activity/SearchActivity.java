@@ -12,12 +12,14 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.adapters.SearchResultAdapter;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.contentprovider.RecentSearchContentProvider;
+import com.example.udhay.randomwallpaper.interfaces.ClickInterface;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 import com.example.udhay.randomwallpaper.model.UserSearchResult;
@@ -41,14 +43,19 @@ public class SearchActivity extends AppCompatActivity {
 
     @BindView(R.id.user_text_view)
     TextView userTextView;
+
     @BindView(R.id.user_recycler_view)
     RecyclerView userRecyclerView;
+
     @BindView(R.id.collection_text_view)
     TextView collectionTextView;
+
     @BindView(R.id.collection_recycler_view)
     RecyclerView collectionRecyclerView;
+
     @BindView(R.id.wallpaper_text_view)
     TextView wallpaperTextView;
+
     @BindView(R.id.wallpaper_recycler_view)
     RecyclerView wallpaperRecyclerView;
 
@@ -155,11 +162,24 @@ public class SearchActivity extends AppCompatActivity {
 
         unSplashApi.searchCollection(query, 1, 20).enqueue(new Callback<CollectionSearchResult>() {
             @Override
-            public void onResponse(Call<CollectionSearchResult> call, Response<CollectionSearchResult> response) {
+            public void onResponse(Call<CollectionSearchResult> call, final Response<CollectionSearchResult> response) {
 
                 collectionRecyclerView.setLayoutManager(new LinearLayoutManager(SearchActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
-                collectionRecyclerView.setAdapter(new SearchResultAdapter().getCollectionsAdapter(response.body()));
+                collectionRecyclerView.setAdapter(new SearchResultAdapter().getCollectionsAdapter(response.body(), new ClickInterface() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = collectionRecyclerView.getChildAdapterPosition(view);
+                        int id = response.body().getCollections().get(position).getId();
+                        String title = response.body().getCollections().get(position).getTitle();
+
+                        Intent intent = new Intent(SearchActivity.this, CollectionDetailActivity.class);
+                        intent.putExtra(CollectionDetailActivity.COLLECTION_ID, id);
+                        intent.putExtra(CollectionDetailActivity.COLLECTION_TITLE, title);
+
+                        startActivity(intent);
+                    }
+                }));
             }
 
             @Override
