@@ -1,6 +1,7 @@
 package com.example.udhay.randomwallpaper.activity;
 
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -14,6 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieProperty;
+import com.airbnb.lottie.SimpleColorFilter;
+import com.airbnb.lottie.model.KeyPath;
+import com.airbnb.lottie.value.LottieFrameInfo;
+import com.airbnb.lottie.value.ScaleXY;
+import com.airbnb.lottie.value.SimpleLottieValueCallback;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.Photo;
@@ -46,7 +54,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     @BindView(R.id.save)
-    ImageView saveButton;
+    LottieAnimationView saveButton;
 
     @BindView(R.id.download)
     ImageView downloadButton;
@@ -58,7 +66,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
     TextView description;
 
     @BindView(R.id.bottom_sheet_arrow)
-    ImageView arrowImageView;
+    LottieAnimationView arrowImageView;
 
     @BindView(R.id.profile_image)
     CircleImageView profileImageView;
@@ -81,6 +89,30 @@ public class PhotoDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
+
+        arrowImageView.addValueCallback(
+                new KeyPath("**"),
+                LottieProperty.COLOR_FILTER,
+                new SimpleLottieValueCallback<ColorFilter>() {
+                    @Override
+                    public ColorFilter getValue(LottieFrameInfo<ColorFilter> frameInfo) {
+                        return new SimpleColorFilter(Color.WHITE);
+                    }
+                });
+
+        arrowImageView.addValueCallback(
+                new KeyPath("**"),
+                LottieProperty.TRANSFORM_SCALE,
+                new SimpleLottieValueCallback<ScaleXY>() {
+                    @Override
+                    public ScaleXY getValue(LottieFrameInfo<ScaleXY> frameInfo) {
+                        return new ScaleXY(2, 2);
+                    }
+                });
+
+
+        arrowImageView.setScale(1.5f);
+        openArrow();
 
         id = getIntent().getStringExtra(ID);
 
@@ -123,6 +155,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
                     case BottomSheetBehavior.STATE_HIDDEN:
                         break;
                     case BottomSheetBehavior.STATE_EXPANDED: {
+
                         closeArrow();
                     }
                     break;
@@ -213,7 +246,9 @@ public class PhotoDetailActivity extends AppCompatActivity {
 
     private void saveImage() {
 
-        Toast.makeText(PhotoDetailActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+        saveButton.playAnimation();
+        Timber.v(saveButton.getDuration() + "");
+
     }
 
     private void shareImage() {
@@ -234,21 +269,23 @@ public class PhotoDetailActivity extends AppCompatActivity {
     public void toggleBottomSheet() {
         if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            closeArrow();
         } else {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            openArrow();
         }
     }
 
     private void openArrow() {
 
-        arrowImageView.setRotation(90);
+        arrowImageView.setMinAndMaxFrame(0, 10);
+        arrowImageView.setSpeed(1.4f);
+        arrowImageView.playAnimation();
     }
 
     private void closeArrow() {
 
-        arrowImageView.setRotation(270);
+        arrowImageView.setMinAndMaxFrame(35, 48);
+        arrowImageView.setSpeed(1.4f);
+        arrowImageView.playAnimation();
     }
 }
 

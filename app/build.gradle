@@ -43,4 +43,7 @@ dependencies {
     implementation 'com.mikepenz:materialdrawer:5.9.5'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
+    implementation 'com.airbnb.android:lottie:2.7.0'
+
+
 }

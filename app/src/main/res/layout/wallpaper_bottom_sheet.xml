@@ -17,20 +17,19 @@
     app:layout_behavior="@string/bottom_sheet_behavior">
 
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/save"
-        android:layout_width="0dp"
+        android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:drawablePadding="24dp"
         android:gravity="center_vertical"
-        android:src="@drawable/like"
-        android:textColor="@color/md_white_1000"
         app:layout_constraintBottom_toBottomOf="@+id/downloads_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_view2" />
+        app:layout_constraintTop_toTopOf="@+id/text_view2"
+        app:lottie_rawRes="@raw/favourite_app_icon" />
 
     <ImageView
         android:id="@+id/download"
@@ -73,16 +72,16 @@
         app:layout_constraintStart_toEndOf="@+id/profile_image"
         app:layout_constraintTop_toTopOf="@+id/profile_image" />
 
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/bottom_sheet_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginEnd="8dp"
-        android:rotation="90"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/description"
-        app:srcCompat="@drawable/back" />
+        app:lottie_rawRes="@raw/scroll" />
 
     <View
         android:id="@+id/space"
