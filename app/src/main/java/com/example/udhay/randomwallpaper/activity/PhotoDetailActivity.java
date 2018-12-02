@@ -1,5 +1,6 @@
 package com.example.udhay.randomwallpaper.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.os.Bundle;
@@ -273,6 +274,8 @@ public class PhotoDetailActivity extends AppCompatActivity {
     }
 
     private void showProfile() {
+
+        startActivity(new Intent(this, ProfileActivity.class));
 
         Toast.makeText(this, "show profile", Toast.LENGTH_SHORT).show();
     }

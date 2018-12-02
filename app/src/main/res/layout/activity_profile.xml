@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ProfileActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:contentScrim="?attr/colorPrimary">
+
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax"
+                android:scaleType="centerCrop"
+                android:src="@drawable/error_2"
+                app:layout_collapseParallaxMultiplier="0.7" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Now everything should be working, but I added some code that will tint the toolbar using palette, or will help with material transitions.
+
+An important thing to know about the latter point is that we cannot use the image as the transition target. For some reason it won’t work. After trying some different options I found that the one that works best is targeting the AppBarLayout:
+
+1
+ViewCompat.setTransitionName(findViewById(R.id.app_bar_layout), EXTRA_IMAGE);
+We also need to set the Collapsing Toolbar Layout title programmatically. I also set the expanded color for the title to transparent, because it was interfering with the transition. Besides, it creates a nice alpha effect:
+
+1
+collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+2
+        collapsingToolbarLayout.setTitle(itemTitle);
+3
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+I’m also tinting the toolbar and the FAB using Palette. I won’t get into details about this, but you can check the code for more details:
+
+1
+collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(primary));
+2
+collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(primaryDark));
+3
+...
+4
+fab.setRippleColor(lightVibrantColor);
+5
+fab.setBackgroundTintList(ColorStateList.valueOf(vibrantColor));
+Conclusion
+With some simple steps, now we have an amazingly animated detail screen that includes most of the things we’ve seen in Material Design specs. We can customize this in many ways really easily, and even manage some more complex effects by creating custom behaviors, which is what we’ll see in next article. You can subscribe to the blog feed to stay tuned.
+
+
+Author: Antonio Leiva
+I’m in love with Kotlin. I’ve been learning about it for a couple of years, applying it to Android and digesting all this knowledge so that you can learn it with no effort.
+
+ Twitter  Linkedin  Github" />
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        app:title="@string/app_name">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/follower" />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/following" />
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/fav_photo" />
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/collection" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.design.bottomappbar.BottomAppBar>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/bottom_app_bar" />
+
+</android.support.design.widget.CoordinatorLayout>
+
