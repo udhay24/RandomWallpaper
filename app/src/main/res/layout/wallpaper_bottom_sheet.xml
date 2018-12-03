@@ -28,7 +28,7 @@
         android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="@+id/downloads_text_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_view2"
+        app:layout_constraintTop_toTopOf="@+id/text_view_6"
         app:lottie_rawRes="@raw/favourite_app_icon" />
 
     <ImageView
@@ -108,7 +108,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_view1"
+        android:id="@+id/text_view_5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -119,7 +119,7 @@
         app:layout_constraintTop_toBottomOf="@+id/space" />
 
     <TextView
-        android:id="@+id/text_view2"
+        android:id="@+id/text_view_6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -129,7 +129,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         app:layout_constraintEnd_toStartOf="@+id/download"
         app:layout_constraintHorizontal_bias="0.43"
-        app:layout_constraintStart_toEndOf="@+id/text_view1"
+        app:layout_constraintStart_toEndOf="@+id/text_view_5"
         app:layout_constraintTop_toBottomOf="@+id/space" />
 
     <TextView
@@ -140,9 +140,9 @@
         android:text="0"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@+id/text_view1"
-        app:layout_constraintStart_toStartOf="@+id/text_view1"
-        app:layout_constraintTop_toBottomOf="@+id/text_view1"
+        app:layout_constraintEnd_toEndOf="@+id/text_view_5"
+        app:layout_constraintStart_toStartOf="@+id/text_view_5"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_5"
         tools:text="450" />
 
     <TextView
@@ -152,9 +152,9 @@
         android:layout_marginTop="8dp"
         android:text="0"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        app:layout_constraintEnd_toEndOf="@+id/text_view2"
-        app:layout_constraintStart_toStartOf="@+id/text_view2"
-        app:layout_constraintTop_toBottomOf="@+id/text_view2"
+        app:layout_constraintEnd_toEndOf="@+id/text_view_6"
+        app:layout_constraintStart_toStartOf="@+id/text_view_6"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_6"
         tools:text="1024" />
 
 </android.support.constraint.ConstraintLayout>
