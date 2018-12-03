@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.User;
+import com.example.udhay.randomwallpaper.model.UserStatistics;
 import com.example.udhay.randomwallpaper.util.RetrofitClient;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -20,8 +21,9 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -121,55 +123,131 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setGraph() {
+
+        unSplashApi.getUserStatistics(userName).enqueue(new Callback<UserStatistics>() {
+            @Override
+            public void onResponse(Call<UserStatistics> call, Response<UserStatistics> response) {
+
+                addDownloadSeries(response);
+                addViewsSeries(response);
+                addLikesSeries(response);
+                statisticsGraphView.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+                statisticsGraphView.getGridLabelRenderer().setHorizontalLabelsVisible(false);// remove horizontal x labels and line
+                statisticsGraphView.getGridLabelRenderer().setVerticalLabelsVisible(false);
+                statisticsGraphView.getGridLabelRenderer().setVerticalAxisTitle("Frequency");
+                statisticsGraphView.getGridLabelRenderer().setHorizontalAxisTitle("Time");
+                statisticsGraphView.getLegendRenderer().setVisible(true);
+                statisticsGraphView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+
+            }
+
+            @Override
+            public void onFailure(Call<UserStatistics> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private ArrayList<Date> getDateList(ArrayList<UserStatistics.Value> values) {
+
+        ArrayList<Date> dates = new ArrayList<>();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        Date d1, d2, d3, d4, d5;
-        d1 = d2 = d3 = d4 = d5 = new Date();
-        try {
-            d1 = format.parse("2017-02-25");
-            d2 = format.parse("2017-02-26");
-            d3 = format.parse("2017-02-27");
-            d4 = format.parse("2017-02-28");
-            d5 = format.parse("2017-03-1");
 
+        for (UserStatistics.Value value : values) {
+            try {
 
-        } catch (ParseException e) {
-            e.printStackTrace();
+                dates.add(format.parse(value.getDate()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
-        GraphView graph = findViewById(R.id.graph_view);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                new DataPoint(d1, 1),
-                new DataPoint(d2, 5),
-                new DataPoint(d3, 3),
-                new DataPoint(d4, 2),
-                new DataPoint(d5, 6)
-        });
+        return dates;
+    }
+
+    private ArrayList<Integer> getValueList(ArrayList<UserStatistics.Value> values) {
+
+        ArrayList<Integer> valueList = new ArrayList<>();
+
+        for (UserStatistics.Value value : values) {
+            valueList.add(value.getValue());
+        }
+
+        return valueList;
+    }
+
+    private void addDownloadSeries(Response<UserStatistics> response) {
+
+        ArrayList<Date> dates = getDateList(new ArrayList<UserStatistics.Value>(response.body().getDownloads().getHistorical().getValues()));
+        ArrayList<Integer> values = getValueList(new ArrayList<UserStatistics.Value>(response.body().getDownloads().getHistorical().getValues()));
+
+        DataPoint[] downloadDataPoints = new DataPoint[dates.size()];
+        int max = Collections.max(values);
+        for (int i = 0; i < dates.size(); i++) {
+
+            downloadDataPoints[i] = new DataPoint(dates.get(i), values.get(i) * 100 / max);
+        }
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(downloadDataPoints);
         series.setAnimated(true);
-        series.setColor(Color.GRAY);
+        series.setColor(Color.parseColor("#3A1412"));
         series.setDrawDataPoints(true);
         series.setDataPointsRadius(7);
         series.setThickness(4);
-        series.setTitle("Views");
+        series.setTitle("downloads");
 
-        graph.addSeries(series);
-
-        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
-        graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);// remove horizontal x labels and line
-        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
-        graph.getGridLabelRenderer().setVerticalAxisTitle("views");
-        graph.getLegendRenderer().setVisible(true);
-        graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
-
-
-        LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                new DataPoint(d1, 5),
-                new DataPoint(d2, 4),
-                new DataPoint(d3, 6),
-                new DataPoint(d4, 8),
-                new DataPoint(d5, 1)
-        });
-
-        graph.addSeries(series2);
+        statisticsGraphView.addSeries(series);
     }
+
+    private void addLikesSeries(Response<UserStatistics> response) {
+
+        ArrayList<Date> dates = getDateList(new ArrayList<UserStatistics.Value>(response.body().getLikes().getHistorical().getValues()));
+        ArrayList<Integer> values = getValueList(new ArrayList<UserStatistics.Value>(response.body().getLikes().getHistorical().getValues()));
+
+        DataPoint[] likesDataPoints = new DataPoint[dates.size()];
+        int max = Collections.max(values);
+        for (int i = 0; i < dates.size(); i++) {
+
+            likesDataPoints[i] = new DataPoint(dates.get(i), values.get(i) * 100 / max);
+        }
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(likesDataPoints);
+        series.setAnimated(true);
+        series.setColor(Color.parseColor("#ED2D7B"));
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(7);
+        series.setThickness(4);
+        series.setTitle("likes");
+
+        statisticsGraphView.addSeries(series);
+    }
+
+    private void addViewsSeries(Response<UserStatistics> response) {
+
+        ArrayList<Date> dates = getDateList(new ArrayList<UserStatistics.Value>(response.body().getViews().getHistorical().getValues()));
+        ArrayList<Integer> values = getValueList(new ArrayList<UserStatistics.Value>(response.body().getViews().getHistorical().getValues()));
+
+        DataPoint[] viewsDataPoints = new DataPoint[dates.size()];
+        int max = Collections.max(values);
+
+        for (int i = 0; i < dates.size(); i++) {
+
+            viewsDataPoints[i] = new DataPoint(dates.get(i), values.get(i) * 100 / max);
+        }
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(viewsDataPoints);
+        series.setAnimated(true);
+        series.setColor(Color.parseColor("#BE9275"));
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(7);
+        series.setThickness(4);
+        series.setTitle("views");
+
+        statisticsGraphView.addSeries(series);
+    }
+
+
+
 
 }

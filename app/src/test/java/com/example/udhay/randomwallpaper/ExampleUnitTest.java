@@ -4,6 +4,11 @@ import com.example.udhay.randomwallpaper.fragments.WallpapersFragment;
 
 import org.junit.Test;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -21,6 +26,17 @@ public class ExampleUnitTest {
     public void checkEnum() {
 
         assertEquals(WallpapersFragment.WALLPAPERS_FRAGMENT_ACTIONS.NEW_WALLPAPER_DISPLAY.toString(), "NEW_COLLECTIONS_DISPLAY");
+    }
 
+    @Test
+    public void checkDate() {
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+        try {
+            System.out.print(format.parse("2018-11-03"));
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
     }
 }
