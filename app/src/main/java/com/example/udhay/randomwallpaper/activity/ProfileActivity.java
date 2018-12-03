@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +16,7 @@ import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.User;
 import com.example.udhay.randomwallpaper.model.UserStatistics;
+import com.example.udhay.randomwallpaper.util.AnimInterpolator;
 import com.example.udhay.randomwallpaper.util.RetrofitClient;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -93,6 +96,9 @@ public class ProfileActivity extends AppCompatActivity {
         followersImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(ProfileActivity.this, R.anim.bounce_anim);
+                animation.setInterpolator(new AnimInterpolator(0.1, 25));
+                v.startAnimation(animation);
                 follower();
             }
         });
