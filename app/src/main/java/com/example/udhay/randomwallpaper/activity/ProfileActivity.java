@@ -2,11 +2,13 @@ package com.example.udhay.randomwallpaper.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
@@ -32,6 +34,7 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -60,6 +63,18 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.graph_view)
     GraphView statisticsGraphView;
 
+    @BindView(R.id.following_image_view)
+    ImageView followingImageView;
+
+    @BindView(R.id.followers_image_view)
+    ImageView followersImageView;
+
+    @BindView(R.id.photos_image_view)
+    ImageView photosImageView;
+
+    @BindView(R.id.collections_image_view)
+    ImageView collectionImageView;
+
     private UnSplashApi unSplashApi;
     private User user;
 
@@ -74,6 +89,35 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         userName = getIntent().getStringExtra(USER_NAME);
+
+        followersImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                follower();
+            }
+        });
+
+        followingImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                following();
+            }
+        });
+
+        photosImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                photos();
+            }
+        });
+
+        collectionImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                collections();
+            }
+        });
+
 
         unSplashApi.getUser(userName).enqueue(new Callback<User>() {
             @Override
@@ -99,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void setToolbarLayout() {
 
         getSupportActionBar().setTitle(user.getName());
-        Toast.makeText(this, user.getName(), Toast.LENGTH_SHORT).show();
+        Timber.v(user.getProfileImage().getLarge());
         Picasso.get()
                 .load(user.getProfileImage().getLarge())
                 .into(profileImageView);
@@ -108,12 +152,16 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void setLocation() {
 
-        locationTextView.setText(user.getLocation());
+        if (user.getLocation() != null || TextUtils.isEmpty(user.getLocation())) {
+            locationTextView.setText(user.getLocation());
+        }
     }
 
     private void setBio() {
 
-        bioTextView.setText(user.getBio());
+        if (user.getBio() != null || !TextUtils.isEmpty(user.getBio())) {
+            bioTextView.setText(user.getBio());
+        }
     }
 
     private void setFollows() {
@@ -183,7 +231,9 @@ public class ProfileActivity extends AppCompatActivity {
         ArrayList<Integer> values = getValueList(new ArrayList<UserStatistics.Value>(response.body().getDownloads().getHistorical().getValues()));
 
         DataPoint[] downloadDataPoints = new DataPoint[dates.size()];
-        int max = Collections.max(values);
+
+        int max = Collections.max(values) == 0 ? 1 : Collections.max(values);
+
         for (int i = 0; i < dates.size(); i++) {
 
             downloadDataPoints[i] = new DataPoint(dates.get(i), values.get(i) * 100 / max);
@@ -204,7 +254,8 @@ public class ProfileActivity extends AppCompatActivity {
         ArrayList<Integer> values = getValueList(new ArrayList<UserStatistics.Value>(response.body().getLikes().getHistorical().getValues()));
 
         DataPoint[] likesDataPoints = new DataPoint[dates.size()];
-        int max = Collections.max(values);
+        int max = Collections.max(values) == 0 ? 1 : Collections.max(values);
+
         for (int i = 0; i < dates.size(); i++) {
 
             likesDataPoints[i] = new DataPoint(dates.get(i), values.get(i) * 100 / max);
@@ -225,7 +276,7 @@ public class ProfileActivity extends AppCompatActivity {
         ArrayList<Integer> values = getValueList(new ArrayList<UserStatistics.Value>(response.body().getViews().getHistorical().getValues()));
 
         DataPoint[] viewsDataPoints = new DataPoint[dates.size()];
-        int max = Collections.max(values);
+        int max = Collections.max(values) == 0 ? 1 : Collections.max(values);
 
         for (int i = 0; i < dates.size(); i++) {
 
@@ -241,7 +292,41 @@ public class ProfileActivity extends AppCompatActivity {
         statisticsGraphView.addSeries(series);
     }
 
+    private void follower() {
 
+        followersImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.profileActivityIconSelected));
+        followingImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+        photosImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+        collectionImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+
+    }
+
+    private void following() {
+
+        followingImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.profileActivityIconSelected));
+        followersImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+        photosImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+        collectionImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+
+    }
+
+    private void photos() {
+
+        photosImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.profileActivityIconSelected));
+        followingImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+        followersImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+        collectionImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+
+    }
+
+    private void collections() {
+
+        collectionImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.profileActivityIconSelected));
+        followingImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+        photosImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+        followersImageView.setBackgroundColor(ContextCompat.getColor(this, R.color.md_white_1000));
+
+    }
 
 
 }

@@ -28,7 +28,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -187,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
-                        android:text="556"
+                        android:text="0"
                         android:textAppearance="@style/TextAppearance.AppCompat"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/text_view_2"
@@ -200,7 +200,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="16dp"
-                        android:text="5264"
+                        android:text="0"
                         android:textAppearance="@style/TextAppearance.AppCompat"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/text_view_3"
@@ -300,7 +300,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/following"
-                android:background="#d6c8c8"
                 android:padding="4dp" />
 
             <ImageView
@@ -333,7 +332,8 @@
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/bottom_app_bar" />
+        app:layout_anchor="@id/bottom_app_bar"
+        android:src="@drawable/user" />
 
 </android.support.design.widget.CoordinatorLayout>
 

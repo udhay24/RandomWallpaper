@@ -5,5 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="grey">#a4a4a4</color>
 
-    <color name="demo">#e0d2ca35</color>
+    <color name="profileActivityIconSelected">#d6c8c8</color>
 </resources>
