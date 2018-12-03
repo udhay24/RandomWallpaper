@@ -192,8 +192,6 @@ public class ProfileActivity extends AppCompatActivity {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(downloadDataPoints);
         series.setAnimated(true);
         series.setColor(Color.parseColor("#3A1412"));
-        series.setDrawDataPoints(true);
-        series.setDataPointsRadius(7);
         series.setThickness(4);
         series.setTitle("downloads");
 
@@ -215,8 +213,6 @@ public class ProfileActivity extends AppCompatActivity {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(likesDataPoints);
         series.setAnimated(true);
         series.setColor(Color.parseColor("#ED2D7B"));
-        series.setDrawDataPoints(true);
-        series.setDataPointsRadius(7);
         series.setThickness(4);
         series.setTitle("likes");
 
@@ -239,8 +235,6 @@ public class ProfileActivity extends AppCompatActivity {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(viewsDataPoints);
         series.setAnimated(true);
         series.setColor(Color.parseColor("#BE9275"));
-        series.setDrawDataPoints(true);
-        series.setDataPointsRadius(7);
         series.setThickness(4);
         series.setTitle("views");
 
