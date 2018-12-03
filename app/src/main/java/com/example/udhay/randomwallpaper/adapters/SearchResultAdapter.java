@@ -12,6 +12,7 @@ import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.interfaces.ClickInterface;
 import com.example.udhay.randomwallpaper.model.CollectionSearchResult;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
+import com.example.udhay.randomwallpaper.model.User;
 import com.example.udhay.randomwallpaper.model.UserSearchResult;
 import com.squareup.picasso.Picasso;
 
@@ -145,11 +146,11 @@ public class SearchResultAdapter {
 
     public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
 
-        List<UserSearchResult.SearchUser> userList;
+        List<User> userList;
 
         public UserAdapter(UserSearchResult searchResult) {
 
-            userList = searchResult.getSearchUsers();
+            userList = searchResult.getUsers();
         }
 
         @NonNull

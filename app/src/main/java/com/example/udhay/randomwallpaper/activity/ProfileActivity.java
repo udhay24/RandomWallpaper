@@ -2,11 +2,13 @@ package com.example.udhay.randomwallpaper.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.bottomappbar.BottomAppBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.example.udhay.randomwallpaper.R;
+import com.example.udhay.randomwallpaper.api.UnSplashApi;
+import com.example.udhay.randomwallpaper.model.User;
+import com.example.udhay.randomwallpaper.util.RetrofitClient;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.LegendRenderer;
@@ -19,20 +21,54 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ProfileActivity extends AppCompatActivity {
+
+    public static final String USER_NAME = "user_id";
+
+    private String userName;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    private UnSplashApi unSplashApi;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
 
-        BottomAppBar bottomAppBar = findViewById(R.id.bottom_app_bar);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("my name");
-        getSupportActionBar().setIcon(R.drawable.avatar);
+        userName = getIntent().getStringExtra(USER_NAME);
 
+        unSplashApi.getUser(userName).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                user = response.body();
+                getSupportActionBar().setTitle(user.getName());
+
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+    private void setGraph() {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         Date d1, d2, d3, d4, d5;
         d1 = d2 = d3 = d4 = d5 = new Date();
