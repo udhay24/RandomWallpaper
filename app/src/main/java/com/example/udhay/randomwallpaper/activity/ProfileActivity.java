@@ -4,6 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
@@ -14,6 +17,7 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -36,6 +40,24 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.profile_image)
+    ImageView profileImageView;
+
+    @BindView(R.id.location_text_view)
+    TextView locationTextView;
+
+    @BindView(R.id.bio_text_view)
+    TextView bioTextView;
+
+    @BindView(R.id.followers_text_view)
+    TextView followersTextView;
+
+    @BindView(R.id.following_text_view)
+    TextView followingTextView;
+
+    @BindView(R.id.graph_view)
+    GraphView statisticsGraphView;
+
     private UnSplashApi unSplashApi;
     private User user;
 
@@ -47,6 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         userName = getIntent().getStringExtra(USER_NAME);
 
@@ -55,8 +78,11 @@ public class ProfileActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
 
                 user = response.body();
-                getSupportActionBar().setTitle(user.getName());
-
+                setToolbarLayout();
+                setLocation();
+                setBio();
+                setFollows();
+                setGraph();
             }
 
             @Override
@@ -66,6 +92,32 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void setToolbarLayout() {
+
+        getSupportActionBar().setTitle(user.getName());
+        Toast.makeText(this, user.getName(), Toast.LENGTH_SHORT).show();
+        Picasso.get()
+                .load(user.getProfileImage().getLarge())
+                .into(profileImageView);
+
+    }
+
+    private void setLocation() {
+
+        locationTextView.setText(user.getLocation());
+    }
+
+    private void setBio() {
+
+        bioTextView.setText(user.getBio());
+    }
+
+    private void setFollows() {
+
+        followersTextView.setText(user.getFollowersCount().toString());
+        followingTextView.setText(user.getFollowingCount().toString());
     }
 
     private void setGraph() {
@@ -119,4 +171,5 @@ public class ProfileActivity extends AppCompatActivity {
 
         graph.addSeries(series2);
     }
+
 }

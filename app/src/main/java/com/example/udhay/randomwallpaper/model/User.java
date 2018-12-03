@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-
 public class User {
 
     @SerializedName("id")
@@ -28,16 +27,16 @@ public class User {
     private String lastName;
     @SerializedName("twitter_username")
     @Expose
-    private String twitterUsername;
+    private Object twitterUsername;
     @SerializedName("portfolio_url")
     @Expose
-    private String portfolioUrl;
+    private Object portfolioUrl;
     @SerializedName("bio")
     @Expose
     private String bio;
     @SerializedName("location")
     @Expose
-    private Object location;
+    private String location;
     @SerializedName("links")
     @Expose
     private Links links;
@@ -46,7 +45,7 @@ public class User {
     private ProfileImage profileImage;
     @SerializedName("instagram_username")
     @Expose
-    private String instagramUsername;
+    private Object instagramUsername;
     @SerializedName("total_collections")
     @Expose
     private Integer totalCollections;
@@ -65,7 +64,27 @@ public class User {
     @SerializedName("photos")
     @Expose
     private List<Photo> photos = null;
-
+    @SerializedName("badge")
+    @Expose
+    private Object badge;
+    @SerializedName("downloads")
+    @Expose
+    private Integer downloads;
+    @SerializedName("tags")
+    @Expose
+    private Tags tags;
+    @SerializedName("followers_count")
+    @Expose
+    private Integer followersCount;
+    @SerializedName("following_count")
+    @Expose
+    private Integer followingCount;
+    @SerializedName("allow_messages")
+    @Expose
+    private Boolean allowMessages;
+    @SerializedName("numeric_id")
+    @Expose
+    private Integer numericId;
 
     public String getId() {
         return id;
@@ -115,19 +134,19 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getTwitterUsername() {
+    public Object getTwitterUsername() {
         return twitterUsername;
     }
 
-    public void setTwitterUsername(String twitterUsername) {
+    public void setTwitterUsername(Object twitterUsername) {
         this.twitterUsername = twitterUsername;
     }
 
-    public String getPortfolioUrl() {
+    public Object getPortfolioUrl() {
         return portfolioUrl;
     }
 
-    public void setPortfolioUrl(String portfolioUrl) {
+    public void setPortfolioUrl(Object portfolioUrl) {
         this.portfolioUrl = portfolioUrl;
     }
 
@@ -139,11 +158,11 @@ public class User {
         this.bio = bio;
     }
 
-    public Object getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Object location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -163,11 +182,11 @@ public class User {
         this.profileImage = profileImage;
     }
 
-    public String getInstagramUsername() {
+    public Object getInstagramUsername() {
         return instagramUsername;
     }
 
-    public void setInstagramUsername(String instagramUsername) {
+    public void setInstagramUsername(Object instagramUsername) {
         this.instagramUsername = instagramUsername;
     }
 
@@ -219,6 +238,78 @@ public class User {
         this.photos = photos;
     }
 
+    public Object getBadge() {
+        return badge;
+    }
+
+    public void setBadge(Object badge) {
+        this.badge = badge;
+    }
+
+    public Integer getDownloads() {
+        return downloads;
+    }
+
+    public void setDownloads(Integer downloads) {
+        this.downloads = downloads;
+    }
+
+    public Tags getTags() {
+        return tags;
+    }
+
+    public void setTags(Tags tags) {
+        this.tags = tags;
+    }
+
+    public Integer getFollowersCount() {
+        return followersCount;
+    }
+
+    public void setFollowersCount(Integer followersCount) {
+        this.followersCount = followersCount;
+    }
+
+    public Integer getFollowingCount() {
+        return followingCount;
+    }
+
+    public void setFollowingCount(Integer followingCount) {
+        this.followingCount = followingCount;
+    }
+
+    public Boolean getAllowMessages() {
+        return allowMessages;
+    }
+
+    public void setAllowMessages(Boolean allowMessages) {
+        this.allowMessages = allowMessages;
+    }
+
+    public Integer getNumericId() {
+        return numericId;
+    }
+
+    public void setNumericId(Integer numericId) {
+        this.numericId = numericId;
+    }
+
+
+    public static class Aggregated {
+
+        @SerializedName("title")
+        @Expose
+        private String title;
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+    }
 
     public static class Custom {
 
@@ -318,129 +409,14 @@ public class User {
 
     }
 
-    public static class Photo_Links {
-
-        @SerializedName("self")
-        @Expose
-        private String self;
-        @SerializedName("html")
-        @Expose
-        private String html;
-        @SerializedName("download")
-        @Expose
-        private String download;
-        @SerializedName("download_location")
-        @Expose
-        private String downloadLocation;
-
-        public String getSelf() {
-            return self;
-        }
-
-        public void setSelf(String self) {
-            this.self = self;
-        }
-
-        public String getHtml() {
-            return html;
-        }
-
-        public void setHtml(String html) {
-            this.html = html;
-        }
-
-        public String getDownload() {
-            return download;
-        }
-
-        public void setDownload(String download) {
-            this.download = download;
-        }
-
-        public String getDownloadLocation() {
-            return downloadLocation;
-        }
-
-        public void setDownloadLocation(String downloadLocation) {
-            this.downloadLocation = downloadLocation;
-        }
-
-    }
-
     public static class Photo {
 
         @SerializedName("id")
         @Expose
         private String id;
-        @SerializedName("created_at")
-        @Expose
-        private String createdAt;
-        @SerializedName("updated_at")
-        @Expose
-        private String updatedAt;
-        @SerializedName("width")
-        @Expose
-        private Integer width;
-        @SerializedName("height")
-        @Expose
-        private Integer height;
-        @SerializedName("color")
-        @Expose
-        private String color;
-        @SerializedName("description")
-        @Expose
-        private String description;
         @SerializedName("urls")
         @Expose
         private Urls urls;
-        @SerializedName("links")
-        @Expose
-        private Photo_Links links;
-        @SerializedName("categories")
-        @Expose
-        private List<Object> categories = null;
-        @SerializedName("sponsored")
-        @Expose
-        private Boolean sponsored;
-        @SerializedName("sponsored_by")
-        @Expose
-        private Object sponsoredBy;
-        @SerializedName("sponsored_impressions_id")
-        @Expose
-        private Object sponsoredImpressionsId;
-        @SerializedName("likes")
-        @Expose
-        private Integer likes;
-        @SerializedName("liked_by_user")
-        @Expose
-        private Boolean likedByUser;
-        @SerializedName("current_user_collections")
-        @Expose
-        private List<Object> currentUserCollections = null;
-        @SerializedName("slug")
-        @Expose
-        private Object slug;
-        @SerializedName("badge")
-        @Expose
-        private Badge badge;
-        @SerializedName("downloads")
-        @Expose
-        private Integer downloads;
-        @SerializedName("tags")
-        @Expose
-        private Tags tags;
-        @SerializedName("followers_count")
-        @Expose
-        private Integer followersCount;
-        @SerializedName("following_count")
-        @Expose
-        private Integer followingCount;
-        @SerializedName("allow_messages")
-        @Expose
-        private Boolean allowMessages;
-        @SerializedName("numeric_id")
-        @Expose
-        private Integer numericId;
 
         public String getId() {
             return id;
@@ -450,54 +426,6 @@ public class User {
             this.id = id;
         }
 
-        public String getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public String getUpdatedAt() {
-            return updatedAt;
-        }
-
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
-        }
-
-        public Integer getWidth() {
-            return width;
-        }
-
-        public void setWidth(Integer width) {
-            this.width = width;
-        }
-
-        public Integer getHeight() {
-            return height;
-        }
-
-        public void setHeight(Integer height) {
-            this.height = height;
-        }
-
-        public String getColor() {
-            return color;
-        }
-
-        public void setColor(String color) {
-            this.color = color;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
         public Urls getUrls() {
             return urls;
         }
@@ -505,136 +433,6 @@ public class User {
         public void setUrls(Urls urls) {
             this.urls = urls;
         }
-
-        public Photo_Links getLinks() {
-            return links;
-        }
-
-        public void setLinks(Photo_Links links) {
-            this.links = links;
-        }
-
-        public List<Object> getCategories() {
-            return categories;
-        }
-
-        public void setCategories(List<Object> categories) {
-            this.categories = categories;
-        }
-
-        public Boolean getSponsored() {
-            return sponsored;
-        }
-
-        public void setSponsored(Boolean sponsored) {
-            this.sponsored = sponsored;
-        }
-
-        public Object getSponsoredBy() {
-            return sponsoredBy;
-        }
-
-        public void setSponsoredBy(Object sponsoredBy) {
-            this.sponsoredBy = sponsoredBy;
-        }
-
-        public Object getSponsoredImpressionsId() {
-            return sponsoredImpressionsId;
-        }
-
-        public void setSponsoredImpressionsId(Object sponsoredImpressionsId) {
-            this.sponsoredImpressionsId = sponsoredImpressionsId;
-        }
-
-        public Integer getLikes() {
-            return likes;
-        }
-
-        public void setLikes(Integer likes) {
-            this.likes = likes;
-        }
-
-        public Boolean getLikedByUser() {
-            return likedByUser;
-        }
-
-        public void setLikedByUser(Boolean likedByUser) {
-            this.likedByUser = likedByUser;
-        }
-
-        public List<Object> getCurrentUserCollections() {
-            return currentUserCollections;
-        }
-
-        public void setCurrentUserCollections(List<Object> currentUserCollections) {
-            this.currentUserCollections = currentUserCollections;
-        }
-
-        public Object getSlug() {
-            return slug;
-        }
-
-        public void setSlug(Object slug) {
-            this.slug = slug;
-        }
-
-
-        public Badge getBadge() {
-            return badge;
-        }
-
-        public void setBadge(Badge badge) {
-            this.badge = badge;
-        }
-
-        public Integer getDownloads() {
-            return downloads;
-        }
-
-        public void setDownloads(Integer downloads) {
-            this.downloads = downloads;
-        }
-
-        public Tags getTags() {
-            return tags;
-        }
-
-        public void setTags(Tags tags) {
-            this.tags = tags;
-        }
-
-        public Integer getFollowersCount() {
-            return followersCount;
-        }
-
-        public void setFollowersCount(Integer followersCount) {
-            this.followersCount = followersCount;
-        }
-
-        public Integer getFollowingCount() {
-            return followingCount;
-        }
-
-        public void setFollowingCount(Integer followingCount) {
-            this.followingCount = followingCount;
-        }
-
-        public Boolean getAllowMessages() {
-            return allowMessages;
-        }
-
-        public void setAllowMessages(Boolean allowMessages) {
-            this.allowMessages = allowMessages;
-        }
-
-        public Integer getNumericId() {
-            return numericId;
-        }
-
-        public void setNumericId(Integer numericId) {
-            this.numericId = numericId;
-        }
-
 
     }
 
@@ -676,7 +474,32 @@ public class User {
 
     }
 
+    public static class Tags {
 
+        @SerializedName("custom")
+        @Expose
+        private List<Custom> custom = null;
+        @SerializedName("aggregated")
+        @Expose
+        private List<Aggregated> aggregated = null;
+
+        public List<Custom> getCustom() {
+            return custom;
+        }
+
+        public void setCustom(List<Custom> custom) {
+            this.custom = custom;
+        }
+
+        public List<Aggregated> getAggregated() {
+            return aggregated;
+        }
+
+        public void setAggregated(List<Aggregated> aggregated) {
+            this.aggregated = aggregated;
+        }
+
+    }
 
     public static class Urls {
 
@@ -734,99 +557,6 @@ public class User {
 
         public void setThumb(String thumb) {
             this.thumb = thumb;
-        }
-
-    }
-
-
-    public class Badge {
-
-        @SerializedName("title")
-        @Expose
-        private String title;
-        @SerializedName("primary")
-        @Expose
-        private Boolean primary;
-        @SerializedName("slug")
-        @Expose
-        private String slug;
-        @SerializedName("link")
-        @Expose
-        private String link;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public Boolean getPrimary() {
-            return primary;
-        }
-
-        public void setPrimary(Boolean primary) {
-            this.primary = primary;
-        }
-
-        public String getSlug() {
-            return slug;
-        }
-
-        public void setSlug(String slug) {
-            this.slug = slug;
-        }
-
-        public String getLink() {
-            return link;
-        }
-
-        public void setLink(String link) {
-            this.link = link;
-        }
-
-    }
-
-    public class Tags {
-
-        @SerializedName("custom")
-        @Expose
-        private List<User.Custom> custom = null;
-        @SerializedName("aggregated")
-        @Expose
-        private List<Aggregated> aggregated = null;
-
-        public List<User.Custom> getCustom() {
-            return custom;
-        }
-
-        public void setCustom(List<User.Custom> custom) {
-            this.custom = custom;
-        }
-
-        public List<Aggregated> getAggregated() {
-            return aggregated;
-        }
-
-        public void setAggregated(List<Aggregated> aggregated) {
-            this.aggregated = aggregated;
-        }
-
-    }
-
-    public class Aggregated {
-
-        @SerializedName("title")
-        @Expose
-        private String title;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
         }
 
     }

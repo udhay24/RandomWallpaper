@@ -6,6 +6,7 @@ import com.example.udhay.randomwallpaper.model.Photo;
 import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 import com.example.udhay.randomwallpaper.model.User;
 import com.example.udhay.randomwallpaper.model.UserSearchResult;
+import com.example.udhay.randomwallpaper.model.UserStatistics;
 
 import java.util.List;
 
@@ -44,6 +45,8 @@ public interface UnSplashApi {
     @GET("collections/{id}/photos")
     Call<List<Photo>> getCollectionById(@Path("id") int id, @Query("page") int page, @Query("per_page") int perPage);
 
+    @GET("users/{user_name}/statistics")
+    Call<UserStatistics> getUserStatistics(@Path("user_name") String userName);
 
 }
 
