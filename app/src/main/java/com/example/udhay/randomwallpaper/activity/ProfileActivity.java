@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,7 +14,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.udhay.randomwallpaper.R;
+import com.example.udhay.randomwallpaper.adapters.TagsAdapter;
 import com.example.udhay.randomwallpaper.api.UnSplashApi;
 import com.example.udhay.randomwallpaper.model.User;
 import com.example.udhay.randomwallpaper.model.UserStatistics;
@@ -78,6 +82,12 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.collections_image_view)
     ImageView collectionImageView;
 
+    @BindView(R.id.location_lottie_view)
+    LottieAnimationView locationLottieView;
+
+    @BindView(R.id.tags_recycler_view)
+    RecyclerView tagsRecyclerView;
+
     private UnSplashApi unSplashApi;
     private User user;
 
@@ -92,6 +102,8 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         userName = getIntent().getStringExtra(USER_NAME);
+
+        locationLottieView.playAnimation();
 
         followersImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +147,7 @@ public class ProfileActivity extends AppCompatActivity {
                 setBio();
                 setFollows();
                 setGraph();
+                setTags(response.body().getTags());
             }
 
             @Override
@@ -334,5 +347,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    private void setTags(User.Tags tags) {
+
+        tagsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+        tagsRecyclerView.setAdapter(new TagsAdapter(tags.getCustom(), tags.getAggregated()));
+
+    }
 
 }

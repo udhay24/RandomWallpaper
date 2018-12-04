@@ -71,11 +71,11 @@
                         android:text="Location"
                         android:textAppearance="@style/TextAppearance.AppCompat"
                         app:layout_constraintBottom_toTopOf="@+id/location_text_view"
-                        app:layout_constraintStart_toEndOf="@+id/location_image_view"
+                        app:layout_constraintStart_toEndOf="@+id/location_lottie_view"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/location_image_view"
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/location_lottie_view"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="50dp"
@@ -83,7 +83,8 @@
                         app:layout_constraintBottom_toBottomOf="@+id/location_text_view"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/text_view_1"
-                        app:srcCompat="@drawable/location" />
+                        app:lottie_rawRes="@raw/bouncy_mapmaker"
+                        app:lottie_loop="true" />
 
                     <TextView
                         android:id="@+id/location_text_view"
@@ -253,8 +254,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/graph_view" />
 
-            <ListView
-                android:id="@+id/tags_list_view"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/tags_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
