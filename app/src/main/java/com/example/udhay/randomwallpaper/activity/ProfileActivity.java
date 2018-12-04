@@ -29,6 +29,8 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.squareup.picasso.Picasso;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,10 +40,10 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.HttpUrl;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import timber.log.Timber;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -162,11 +164,24 @@ public class ProfileActivity extends AppCompatActivity {
     private void setToolbarLayout() {
 
         getSupportActionBar().setTitle(user.getName());
-        Timber.v(user.getProfileImage().getLarge());
-        Picasso.get()
-                .load(user.getProfileImage().getLarge())
-                .into(profileImageView);
 
+        URL url = null;
+        try {
+            url = new URL(user.getProfileImage().getLarge());
+
+            Picasso.get()
+                    .load(HttpUrl.get(url.getProtocol() + "://" + url.getHost() + url.getPath())
+                            .newBuilder()
+                            .addQueryParameter("w", "600")
+                            .addQueryParameter("h", "760")
+                            .addQueryParameter("crop", "faces")
+                            .build().toString())
+
+                    .into(profileImageView);
+
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void setLocation() {
