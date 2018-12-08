@@ -25,6 +25,7 @@ import static android.support.test.espresso.action.ViewActions.pressKey;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -54,7 +55,7 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void openSearch(){
+    public void search_keywordSearched_showResults(){
 
         String searchQuery = "search";
 
@@ -69,12 +70,14 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void clickRecyclerItem(){
+    public void imageClick_showDetailImage(){
 
         onView(withId(R.id.featured_images_recycler_view))
-                //.perform(RecyclerViewActions.scrollToPosition(20))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(3 , click()))
-                .check(matches(allOf(withId(R.id.photo_image_view) , isDisplayed())));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(3 , click()));
+
+        onView(withId(R.id.photo_image_view))
+                .check(matches(isDisplayed()));
+
     }
 
 

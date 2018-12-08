@@ -208,6 +208,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
 
                 if (selectedPhoto.getDescription() != null) {
                     description.setText(selectedPhoto.getDescription());
+                    photoImageView.setContentDescription(selectedPhoto.getDescription());
                 } else {
                     description.setText("No Description");
                 }
