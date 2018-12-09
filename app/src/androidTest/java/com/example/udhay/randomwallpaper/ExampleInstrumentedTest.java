@@ -42,30 +42,14 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> mainActivity = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mainActivity = new ActivityTestRule<>(MainActivity.class , true , true);
 
-    @Test
+    //@Test
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.example.udhay.randomwallpaper", appContext.getPackageName());
-
-
-    }
-
-    @Test
-    public void search_keywordSearched_showResults(){
-
-        String searchQuery = "search";
-
-        onView(withId(R.id.search_menu_item))
-                .perform(click());
-
-        onView(withId(android.support.design.R.id.search_src_text))
-                .perform(typeText(searchQuery))
-                .perform(pressImeActionButton())
-                .check(matches(allOf(withId(android.support.design.R.id.search_src_text) , withText(searchQuery))));
 
     }
 
@@ -81,7 +65,25 @@ public class ExampleInstrumentedTest {
     }
 
 
-    @Test
+    //@Test
+    public void search_keywordSearched_showResults(){
+
+        String searchQuery = "search";
+
+        onView(withId(R.id.search_menu_item))
+                .perform(click());
+
+        onView(withId(android.support.design.R.id.search_src_text))
+                .perform(typeText(searchQuery))
+                .perform(pressImeActionButton())
+                .check(matches(allOf(withId(android.support.design.R.id.search_src_text) , withText(searchQuery))));
+
+    }
+
+
+
+
+    //@Test
     public void clickCollection(){
 
         onView(withId(R.id.view_pager))
@@ -89,5 +91,12 @@ public class ExampleInstrumentedTest {
 
         onView(withId(R.id.recycler_view))
                 .perform(RecyclerViewActions.scrollToPosition(9));
+    }
+
+    @Test
+    public void scrollImages_scrollEndlessly(){
+
+        onView(withId(R.id.recycler_view))
+                .perform(RecyclerViewActions.scrollToPosition(20));
     }
 }
