@@ -22,6 +22,7 @@ import com.example.udhay.randomwallpaper.model.User;
 import com.example.udhay.randomwallpaper.model.UserStatistics;
 import com.example.udhay.randomwallpaper.util.AnimInterpolator;
 import com.example.udhay.randomwallpaper.util.RetrofitClient;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.LegendRenderer;
@@ -90,6 +91,9 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.tags_recycler_view)
     RecyclerView tagsRecyclerView;
 
+    @BindView(R.id.shimmer_layout)
+    ShimmerFrameLayout shimmerFrameLayout;
+
     private UnSplashApi unSplashApi;
     private User user;
 
@@ -100,6 +104,8 @@ public class ProfileActivity extends AppCompatActivity {
         unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
 
         ButterKnife.bind(this);
+
+        shimmerFrameLayout.startShimmer();
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -150,6 +156,7 @@ public class ProfileActivity extends AppCompatActivity {
                 setFollows();
                 setGraph();
                 setTags(response.body().getTags());
+                shimmerFrameLayout.stopShimmer();
             }
 
             @Override

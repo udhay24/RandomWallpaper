@@ -44,7 +44,7 @@ public class ExampleInstrumentedTest {
     @Rule
     public ActivityTestRule<MainActivity> mainActivity = new ActivityTestRule<>(MainActivity.class , true , true);
 
-    //@Test
+    @Test
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
@@ -65,7 +65,7 @@ public class ExampleInstrumentedTest {
     }
 
 
-    //@Test
+    @Test
     public void search_keywordSearched_showResults(){
 
         String searchQuery = "search";

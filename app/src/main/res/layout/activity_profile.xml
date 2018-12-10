@@ -35,11 +35,21 @@
 
     </android.support.design.widget.AppBarLayout>
 
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="80dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:shimmer_colored="true"
+            app:shimmer_highlight_color="@color/md_red_50"
+            app:shimmer_repeat_mode="reverse"
+            app:shimmer_auto_start="false">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -268,7 +278,8 @@
 
         </android.support.constraint.ConstraintLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</android.support.v4.widget.NestedScrollView>
 
     <android.support.design.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"

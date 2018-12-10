@@ -57,7 +57,7 @@
             android:authorities="com.example.udhay.randomwallpaper.contentprovider.RecentSearchContentProvider"
             android:exported="false" />
 
-        <activity android:name=".activity.ProfileActivity"></activity>
+        <activity android:name=".activity.ProfileActivity"/>
     </application>
 
 </manifest>
