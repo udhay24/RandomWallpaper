@@ -39,4 +39,10 @@ public class ExampleUnitTest {
             ex.printStackTrace();
         }
     }
+
+    @Test
+    public void checkClientId() {
+
+        assertEquals(BuildConfig.UNSPLASH_CLIENT_ID , "374a680ea9dfd39c388e1411ba9229adfea3b257026d7b44bc7d053ca6729bb9");
+    }
 }

@@ -91,9 +91,6 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.tags_recycler_view)
     RecyclerView tagsRecyclerView;
 
-    @BindView(R.id.shimmer_layout)
-    ShimmerFrameLayout shimmerFrameLayout;
-
     private UnSplashApi unSplashApi;
     private User user;
 
@@ -105,7 +102,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        shimmerFrameLayout.startShimmer();
 
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -156,7 +152,6 @@ public class ProfileActivity extends AppCompatActivity {
                 setFollows();
                 setGraph();
                 setTags(response.body().getTags());
-                shimmerFrameLayout.stopShimmer();
             }
 
             @Override
