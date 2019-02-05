@@ -1,9 +1,9 @@
 package com.example.udhay.randomwallpaper.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.adapters.FeaturedImageAdapter;

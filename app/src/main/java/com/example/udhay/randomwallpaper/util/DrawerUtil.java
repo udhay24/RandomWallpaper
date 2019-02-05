@@ -1,7 +1,7 @@
 package com.example.udhay.randomwallpaper.util;
 
 import android.app.Activity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.udhay.randomwallpaper.R;
 import com.mikepenz.materialdrawer.AccountHeader;
