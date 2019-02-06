@@ -27,6 +27,7 @@
         app:lottie_repeatMode="restart" />
     <ImageView
         android:id="@+id/photo_image_view"
+        android:transitionName="@string/photo_transition_name"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"

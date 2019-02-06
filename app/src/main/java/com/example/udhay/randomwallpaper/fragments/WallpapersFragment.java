@@ -1,8 +1,11 @@
 package com.example.udhay.randomwallpaper.fragments;
 
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -87,17 +90,19 @@ public class WallpapersFragment extends Fragment {
 
         unSplashApi = RetrofitClient.getClient().create(UnSplashApi.class);
 
-        wallpaperClickInterface = new ClickInterface() {
-            @Override
-            public void onClick(View view) {
-
+        wallpaperClickInterface =
+                (View view) -> {
                 int position = recyclerView.getChildAdapterPosition(view);
 
                 Intent intent = new Intent(WallpapersFragment.this.getContext(), PhotoDetailActivity.class);
 
                 intent.putExtra(PhotoDetailActivity.ID, featuredImageAdapter.getList().get(position).getId());
-                startActivity(intent);
-            }
+
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            getActivity() , view , getResources().getString(R.string.photo_transition_name)
+                    );
+                startActivity(intent , options.toBundle());
+
         };
 
         retrofitResultCallBack = new Callback<List<Photo>>() {
