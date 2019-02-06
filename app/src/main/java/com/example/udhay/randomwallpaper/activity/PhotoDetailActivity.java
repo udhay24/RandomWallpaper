@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,9 +80,6 @@ public class PhotoDetailActivity extends AppCompatActivity {
     @BindView(R.id.downloads_text_view)
     TextView downloadsTextView;
 
-    @BindView(R.id.wallpaper_loading)
-    LottieAnimationView wallpaperAnimation;
-
     private BottomSheetBehavior bottomSheetBehavior;
 
     @Override
@@ -96,28 +94,16 @@ public class PhotoDetailActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
         photoImageView.setVisibility(View.INVISIBLE);
-        wallpaperAnimation.setVisibility(View.VISIBLE);
-        wallpaperAnimation.playAnimation();
 
         arrowImageView.addValueCallback(
                 new KeyPath("**"),
                 LottieProperty.COLOR_FILTER,
-                new SimpleLottieValueCallback<ColorFilter>() {
-                    @Override
-                    public ColorFilter getValue(LottieFrameInfo<ColorFilter> frameInfo) {
-                        return new SimpleColorFilter(Color.WHITE);
-                    }
-                });
+                frameInfo -> new SimpleColorFilter(Color.WHITE));
 
         arrowImageView.addValueCallback(
                 new KeyPath("**"),
                 LottieProperty.TRANSFORM_SCALE,
-                new SimpleLottieValueCallback<ScaleXY>() {
-                    @Override
-                    public ScaleXY getValue(LottieFrameInfo<ScaleXY> frameInfo) {
-                        return new ScaleXY(2, 2);
-                    }
-                });
+                frameInfo -> new ScaleXY(2, 2));
 
 
         arrowImageView.setScale(1.5f);
@@ -127,33 +113,13 @@ public class PhotoDetailActivity extends AppCompatActivity {
 
         loadImage();
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveImage();
-            }
-        });
+        saveButton.setOnClickListener(v -> saveImage());
 
-        downloadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                downloadImage();
-            }
-        });
+        downloadButton.setOnClickListener(v -> downloadImage());
 
-        shareTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shareImage();
-            }
-        });
+        shareTextView.setOnClickListener(v -> shareImage());
 
-        profileImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showProfile();
-            }
-        });
+        profileImageView.setOnClickListener(v -> showProfile());
 
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
 
@@ -205,7 +171,17 @@ public class PhotoDetailActivity extends AppCompatActivity {
                 selectedPhoto = response.body();
                 Picasso.get()
                         .load(selectedPhoto.getUrls().getRegular())
-                        .into(photoImageView);
+                        .into(photoImageView, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                postponeEnterTransition();
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+
+                            }
+                        });
 
                 if (selectedPhoto.getDescription() != null) {
                     description.setText(selectedPhoto.getDescription());
@@ -222,8 +198,6 @@ public class PhotoDetailActivity extends AppCompatActivity {
                 downloadsTextView.setText(selectedPhoto.getDownloads().toString());
 
                 photoImageView.setVisibility(View.VISIBLE);
-                wallpaperAnimation.pauseAnimation();
-                wallpaperAnimation.setVisibility(View.GONE);
 
             }
 
@@ -281,7 +255,7 @@ public class PhotoDetailActivity extends AppCompatActivity {
         intent.putExtra(ProfileActivity.USER_NAME, selectedPhoto.getUser().getUsername());
         startActivity(intent);
     }
-    
+
     public void toggleBottomSheet() {
         if (bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -303,5 +277,17 @@ public class PhotoDetailActivity extends AppCompatActivity {
         arrowImageView.setSpeed(1.4f);
         arrowImageView.playAnimation();
     }
-}
 
+    private void scheduleStartPostponedTransition(final View sharedElement) {
+        sharedElement.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        sharedElement.getViewTreeObserver().removeOnPreDrawListener(this);
+                        startPostponedEnterTransition();
+                        return true;
+                    }
+                });
+    }
+
+}
