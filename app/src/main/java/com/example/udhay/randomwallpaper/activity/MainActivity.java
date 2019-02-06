@@ -4,18 +4,19 @@ import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 
 import com.example.udhay.randomwallpaper.R;
 import com.example.udhay.randomwallpaper.adapters.MainViewPagerAdapter;
 import com.example.udhay.randomwallpaper.util.DrawerUtil;
+import com.google.android.material.tabs.TabLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity_menu, menu);
 
-        searchView = (SearchView) menu.findItem(R.id.search_menu_item).getActionView();
+        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search_menu_item));
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchActivity.class)));
         searchView.setQueryHint("Search Images...");
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    menu.findItem(R.id.search_menu_item).collapseActionView();
+                    MenuItemCompat.collapseActionView(menu.findItem(R.id.search_menu_item));
                 }
             }
         });

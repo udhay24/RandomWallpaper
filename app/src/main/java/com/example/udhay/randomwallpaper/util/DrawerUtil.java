@@ -1,8 +1,5 @@
 package com.example.udhay.randomwallpaper.util;
 
-import android.app.Activity;
-import androidx.appcompat.widget.Toolbar;
-
 import com.example.udhay.randomwallpaper.R;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -14,11 +11,14 @@ import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 public class DrawerUtil {
 
     static Drawer drawer;
 
-    public static void getDrawer(Activity activity, Toolbar toolbar) {
+    public static void getDrawer(AppCompatActivity activity, Toolbar toolbar) {
 
         PrimaryDrawerItem featured = new PrimaryDrawerItem().withName("Featured")
                 .withIcon(R.drawable.featured_image);

@@ -4,12 +4,6 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +20,13 @@ import com.example.udhay.randomwallpaper.model.PhotoSearchResult;
 import com.example.udhay.randomwallpaper.model.UserSearchResult;
 import com.example.udhay.randomwallpaper.util.RetrofitClient;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator;
@@ -94,10 +95,10 @@ public class SearchActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.search_activity_menu, menu);
 
         MenuItem menuItem = menu.findItem(R.id.search_menu_item);
-        searchView = (SearchView) menuItem.getActionView();
-        menuItem.expandActionView();
+        searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        MenuItemCompat.expandActionView(menuItem);
 
-        menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 return true;//to keep the action view open
